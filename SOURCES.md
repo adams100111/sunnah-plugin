@@ -49,6 +49,16 @@ Broad Sunni educational/fatwa/reference website. Initially treated as scholarly 
 
 Origin: `islamweb.net`.
 
+### Egypt's Dar Al-Ifta — active
+Governmental national fatwa institution. Kept as its own institutional lens; its rulings are attributable to Dar al-Ifta and are not silently generalized to all Sunni scholarship.
+
+Origin: `www.dar-alifta.org`.
+
+### Al-Azhar Global Center for Electronic Fatwa — active
+Official Al-Azhar fatwa center with a searchable fatwa bank. Kept as a distinct institutional lens, including its own methodology and attribution.
+
+Origins: `azhar.eg`, `service.azhar.eg`.
+
 ## Saudi Arabia
 
 ### General Presidency of Islamic Research and Ifta — active
