@@ -1,0 +1,22 @@
+id: quran-foundation
+sourceClass: CANONICAL
+authority:
+  type: canonical
+  id: quran-foundation
+  name: Quran Foundation
+origins:
+  - host: apis.quran.foundation
+    paths:
+      - /content/api/v4/**
+supports:
+  - canonical-quotation
+  - source-attribution
+domains:
+  - quran
+languages:
+  - ar
+  - en
+status: active
+retrieval:
+  type: quran-foundation
+  baseUrl: https://apis.quran.foundation/content/api/v4

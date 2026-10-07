@@ -1,0 +1,18 @@
+version: 1
+classes:
+  CANONICAL:
+    allows: [canonical-quotation, source-attribution, tafsir-statement]
+  OFFICIAL_INSTITUTION:
+    allows: [source-attribution, scholar-position, madhhab-position, fatwa-summary, hadith-grading, tafsir-statement, comparative-synthesis]
+  APPROVED_SCHOLAR_CORPUS:
+    allows: [source-attribution, scholar-position, madhhab-position, fatwa-summary, hadith-grading, tafsir-statement, comparative-synthesis]
+  APPROVED_SCHOLARLY_SECONDARY:
+    allows: [source-attribution, historical-report, tafsir-statement, comparative-synthesis]
+  HISTORICAL_REPORT:
+    allows: [source-attribution, historical-report]
+  EXTERNAL_FACTUAL:
+    allows: [source-attribution, external-fact]
+  USER_SUPPLIED_UNTRUSTED:
+    allows: [source-attribution]
+  OPEN_WEB_DISCOVERY:
+    allows: [source-attribution]

@@ -173,25 +173,52 @@ No database, ORM, heavy backend framework, or frontend is required for the core 
 
 See [Technology](docs/architecture/technology.md).
 
+## Quick start
+
+Requires Node.js 22.12+ (CI uses Node 24) and pnpm 10.
+
+```bash
+pnpm install
+pnpm check
+pnpm build
+node apps/mcp/dist/http.js
+```
+
+The HTTP server exposes `/health` and the Streamable HTTP MCP endpoint at `/mcp`.
+Copy `.env.example` into your deployment secret configuration; do not commit credentials.
+
+For a containerized deployment:
+
+```bash
+docker build -t sunnah-plugin .
+docker run --rm -p 3000:3000 --env-file .env sunnah-plugin
+```
+
+See [Build and Install Distribution Packages](docs/distribution/build-and-install.md) for host package generation.
+
 ## Developer and maintainer CLI
 
-A first-class `sunnah` CLI is planned for contributors, agents, CI, and maintainers. It is **not** required by end users on Claude, ChatGPT, or Gemini Web.
+The first-class `sunnah` CLI is for contributors, agents, CI, and maintainers. It is **not** required by end users on Claude, ChatGPT, or Gemini Web.
 
-Representative commands:
+Implemented command families include:
 
 ```text
+sunnah validate
 sunnah sources list
 sunnah sources validate
 sunnah sources build
 sunnah sources diff
+sunnah packs list
 sunnah packs validate
-sunnah policies validate
-sunnah eval
-sunnah plugin validate
+sunnah policies
+sunnah eval [--suite <name>]
+sunnah plugin build --mcp-url https://HOST/mcp
+sunnah plugin validate [--host claude|openai|gemini|generic]
 sunnah mcp dev
+sunnah mcp stdio
 ```
 
-All commands wrap shared core libraries; validation logic must not be duplicated across CLI, MCP, CI, or future Source Studio.
+All commands wrap shared core libraries; validation logic is not duplicated across CLI, MCP, CI, or future Source Studio.
 
 ## Sunnah Engine boundary
 
@@ -250,9 +277,9 @@ See [AGENTS.md](AGENTS.md).
 
 ## Current status
 
-**Documentation and pre-implementation specification phase.**
+**Production-v1 implementation and release-hardening phase.**
 
-The product, trust boundary, source model, cross-host requirement, and implementation direction are being documented before the first implementation spec is generated.
+The portable skill, Git-native registry, approved-source search/retrieval, Publication Gate, remote MCP runtime, user-source/external-fact workflows, maintainer CLI, cross-host packaging, and deterministic trust/security evals are implemented on the production-v1 integration line. Public marketplace publication still requires a deployed HTTPS MCP endpoint and each marketplace's external submission/review process.
 
 ## Documentation
 

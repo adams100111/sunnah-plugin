@@ -1,0 +1,13 @@
+{
+  "name": "@sunnah/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": { "sunnah": "./dist/index.js" },
+  "scripts": { "build": "tsc -b", "typecheck": "tsc -b --pretty false" },
+  "dependencies": {
+    "@sunnah/packaging": "workspace:*",
+    "@sunnah/registry": "workspace:*",
+    "commander": "15.0.0"
+  }
+}

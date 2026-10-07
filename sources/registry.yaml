@@ -1,0 +1,8 @@
+version: 1
+sources:
+  - path: sources/entries/quran-foundation.yaml
+  - path: sources/entries/ibn-baz-official.yaml
+packs:
+  - path: sources/packs/quran-core.yaml
+  - path: sources/packs/saudi-official.yaml
+sourceClassPolicy: policies/source-classes.yaml

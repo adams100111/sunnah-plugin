@@ -43,7 +43,7 @@ The repository README is intentionally an entry point. Detailed rules belong her
 - [Skill Architecture](architecture/skill-architecture.md)
 - [MCP Evidence Runtime](architecture/mcp-evidence-runtime.md)
 - [Retrieval](architecture/retrieval.md)
-- [Claim Verification](architecture/claim-verification.md)
+- [Claim Verification and Semantic Verifier](architecture/claim-verification.md)
 - [Source Registry](architecture/source-registry.md)
 - [Source Packs](architecture/source-packs.md)
 - [User-Provided Sources](architecture/user-sources.md)

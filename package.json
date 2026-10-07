@@ -1,0 +1,36 @@
+{
+  "name": "sunnah-plugin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.17.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "clean": "tsc -b --clean",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "typecheck": "tsc -b --pretty false",
+    "validate": "pnpm build && node packages/cli/dist/index.js validate",
+    "eval": "vitest run tests/evals",
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm validate",
+    "mcp:http": "node apps/mcp/dist/http.js",
+    "mcp:stdio": "node apps/mcp/dist/stdio.js"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.5.15",
+    "@types/node": "26.6.4",
+    "typescript": "^6.0.0",
+    "vitest": "5.0.3",
+    "@sunnah/evidence": "workspace:*",
+    "@sunnah/packaging": "workspace:*",
+    "@sunnah/registry": "workspace:*",
+    "@sunnah/runtime": "workspace:*",
+    "@sunnah/schemas": "workspace:*",
+    "@sunnah/verification": "workspace:*"
+  }
+}
