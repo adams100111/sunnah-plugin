@@ -12,10 +12,13 @@ describe("plugin runtime modes", () => {
   });
 
   it("ships local stdio marketplace wiring", async () => {
+    const portableMcp = JSON.parse(await readFile("mcp.json", "utf8"));
     const codex = JSON.parse(await readFile(".codex-plugin/plugin.json", "utf8"));
     const localMcp = JSON.parse(await readFile(".mcp.json", "utf8"));
     const gemini = JSON.parse(await readFile("gemini-extension.json", "utf8"));
 
+    expect(portableMcp.mcpServers.sunnah.type).toBe("stdio");
+    expect(portableMcp.mcpServers.sunnah.command).toBe("node");
     expect(codex.skills).toBe("./skills/");
     expect(codex.mcpServers).toBe("./.mcp.json");
     expect(localMcp.mcpServers.sunnah.command).toBe("node");

@@ -75,6 +75,7 @@ The canonical skill does not require MCP to load. If MCP is absent, it enters Li
 
 The repository now includes:
 
+- root portable `mcp.json`
 - `.codex-plugin/plugin.json`
 - `.mcp.json`
 - `scripts/local-mcp-bootstrap.mjs`
