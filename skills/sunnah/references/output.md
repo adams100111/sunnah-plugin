@@ -13,6 +13,17 @@ SOURCE
 
 Never lead with a model-generated religious conclusion and attach citations afterward.
 
+## Required answer shape
+
+For a substantive answer, render sections in this semantic order:
+
+1. **Sources and retrieved passages** — one evidence block per material position.
+2. **What the sources state** — faithful generated summary only after the evidence.
+3. **Recognized disagreement** — only when material and directly evidenced.
+4. **Applicability / limitation** — only when the user asks about a personal case or a limitation affects the answer.
+
+Use natural headings in the user's language, but preserve this order. Do not place a generated ruling, recommendation, or personal conclusion before the evidence section.
+
 ## Evidence blocks
 
 Before any generated summary of a substantive Islamic proposition, show the evidence that supports it.
@@ -43,6 +54,8 @@ Keep generated wording visibly separate from exact source text. Never present ge
 ## Attribution
 
 A summary may say that a source states a proposition only when the retrieved evidence directly supports that attribution.
+
+Treat personal application as a separate proposition. A source that states a general rule does not, by itself, support saying that the rule applies to the user's new facts.
 
 Do not convert:
 

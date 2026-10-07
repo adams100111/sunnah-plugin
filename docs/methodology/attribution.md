@@ -28,6 +28,28 @@ Do not infer a scholar's position merely because:
 - it seems consistent with their known principles;
 - the model considers it likely.
 
+## Application is a separate attribution claim
+
+A source that establishes a general rule does not automatically establish that the rule applies to a new user's circumstances.
+
+The system must distinguish:
+
+- what the source explicitly states;
+- a faithful summary of that statement;
+- the separate proposition that a user's facts satisfy the rule's conditions, exception, excuse, necessity, hardship threshold, or other juristic predicate.
+
+The final application proposition may be attributed to a scholar, madhhab, work, or institution only when retrieved evidence directly supports that application.
+
+Do not rewrite model inference as:
+
+- "Shaykh X says your case is...";
+- "the madhhab considers your situation...";
+- "the institution permits/prohibits this case...";
+
+unless the retrieved source actually establishes that proposition.
+
+If only the general rule is established, preserve the weaker accurate attribution and use `SCHOLAR_REQUIRED` for the unresolved personal application.
+
 ## Madhhab attribution
 
 Where possible distinguish:

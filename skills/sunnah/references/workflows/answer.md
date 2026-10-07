@@ -10,4 +10,12 @@
 
 If recognized disagreement becomes material, switch to the comparison workflow.
 
-If the question asks what the user personally should do and applicability is not established by the sources, return the supported general rule and `SCHOLAR_REQUIRED`.
+If the question asks what the user personally should do:
+
+1. treat applicability as a separate claim;
+2. search for approved evidence that directly covers the relevant facts;
+3. if direct applicability is established, show that evidence before summarizing it;
+4. if only a general rule is established, show that rule and return `SCHOLAR_REQUIRED`;
+5. ask a clarification question only when retrieved evidence itself defines the factual distinction being asked about.
+
+Never bridge a general rule to the user's case through model-generated fiqh reasoning.
