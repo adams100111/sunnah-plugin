@@ -1,0 +1,22 @@
+id: egypt-dar-alifta
+sourceClass: OFFICIAL_INSTITUTION
+authority:
+  type: institution
+  id: egypt-dar-alifta
+  name: Egypt's Dar Al-Ifta
+origins:
+  - host: www.dar-alifta.org
+    paths:
+      - /en/fatwa/**
+      - /ar/fatwa/**
+supports:
+  - source-attribution
+  - scholar-position
+  - fatwa-summary
+  - comparative-synthesis
+domains: [fiqh, aqeedah, fatwa]
+languages: [ar, en]
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://www.dar-alifta.org
