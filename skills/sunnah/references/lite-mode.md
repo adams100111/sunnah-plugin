@@ -36,7 +36,7 @@ For every substantive Islamic proposition:
 2. identify who or what actually states the proposition;
 3. show a direct canonical URL or source locator;
 4. show the relevant retrieved passage when quotation integrity permits;
-5. only then summarize, translate, compare, or explain it;
+5. only then faithfully summarize, translate, compare, or organize it;
 6. keep generated wording no broader than the retrieved evidence;
 7. preserve material disagreement with evidence per position;
 8. distinguish a named work/scholar statement from a madhhab-level or institutional position.
