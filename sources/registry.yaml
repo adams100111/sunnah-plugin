@@ -11,6 +11,8 @@ sources:
   - path: sources/entries/sunnah-com.yaml
   - path: sources/entries/islamqa.yaml
   - path: sources/entries/islamweb.yaml
+  - path: sources/entries/egypt-dar-alifta.yaml
+  - path: sources/entries/al-azhar-fatwa.yaml
   - path: sources/entries/sudan-cbos-sharia.yaml
   - path: sources/entries/sudan-government.yaml
   - path: sources/entries/sudan-nusk.yaml
