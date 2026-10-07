@@ -5,7 +5,7 @@ RUN npm install --global pnpm@10.17.1
 WORKDIR /app
 COPY . .
 
-RUN pnpm install --frozen-lockfile=false && pnpm build
+RUN pnpm install --frozen-lockfile && pnpm build
 
 ENV NODE_ENV=production
 ENV PORT=3000
