@@ -277,9 +277,13 @@ See [AGENTS.md](AGENTS.md).
 
 ## Current status
 
-**Production-v1 implementation and release-hardening phase.**
+**Production-v1 code complete and merged to `main`.**
 
-The portable skill, Git-native registry, approved-source search/retrieval, Publication Gate, remote MCP runtime, user-source/external-fact workflows, maintainer CLI, cross-host packaging, and deterministic trust/security evals are implemented on the production-v1 integration line. Public marketplace publication still requires a deployed HTTPS MCP endpoint and each marketplace's external submission/review process.
+The portable skill, Git-native registry, approved-source search/retrieval, Publication Gate, remote MCP runtime, user-source/external-fact workflows, maintainer CLI, cross-host packaging, frozen dependency graph, and trust/security evals have passed the production-v1 release gate.
+
+Operational publication is intentionally separate from code completion: public Claude, ChatGPT/OpenAI, and Gemini installation requires a deployed HTTPS MCP endpoint, runtime credentials, package generation using that endpoint, and each marketplace/account's external submission or installation workflow.
+
+The initial live authority catalog is deliberately curated rather than pretending comprehensive coverage: canonical Qur'an access and Ibn Baz official fatwa search/fetch are configured first. Unsupported source coverage fails closed and can be expanded through the documented registry review process.
 
 ## Documentation
 
