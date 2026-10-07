@@ -15,7 +15,7 @@
     "lint": "biome lint .",
     "format": "biome format --write .",
     "typecheck": "tsc -b --pretty false",
-    "validate": "pnpm --filter @sunnah/cli exec sunnah validate",
+    "validate": "pnpm build && node packages/cli/dist/index.js validate",
     "eval": "vitest run tests/evals",
     "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm validate",
     "mcp:http": "node apps/mcp/dist/http.js",
