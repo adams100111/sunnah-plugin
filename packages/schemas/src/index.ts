@@ -4,6 +4,7 @@ export const SourceClassSchema = z.enum([
   "CANONICAL",
   "OFFICIAL_INSTITUTION",
   "APPROVED_SCHOLAR_CORPUS",
+  "APPROVED_PRIMARY_WORK",
   "APPROVED_SCHOLARLY_SECONDARY",
   "HISTORICAL_REPORT",
   "EXTERNAL_FACTUAL",
@@ -35,7 +36,7 @@ export const SearchConfigSchema = z.object({
 }).strict();
 
 export const AuthoritySchema = z.object({
-  type: z.enum(["canonical", "institution", "scholar", "secondary", "historical", "external"]),
+  type: z.enum(["canonical", "institution", "scholar", "work", "secondary", "historical", "external"]),
   id: z.string().min(1),
   name: z.string().min(1),
 }).strict();
@@ -51,10 +52,25 @@ export const RetrievalSchema = z.object({
   search: SearchConfigSchema.optional(),
 }).strict();
 
+export const MadhhabSchema = z.enum(["hanafi", "maliki", "shafii", "hanbali"]);
+
+export const WorkMetadataSchema = z.object({
+  id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  titleArabic: z.string().min(1),
+  titleEnglish: z.string().min(1).optional(),
+  authorId: z.string().min(1),
+  authorName: z.string().min(1),
+  madhhab: MadhhabSchema,
+  workKind: z.enum(["foundational", "mukhtasar", "commentary", "reference", "comparative"]),
+  accessProvider: z.string().min(1),
+  editionNote: z.string().min(1).optional(),
+}).strict();
+
 export const SourceDefinitionSchema = z.object({
   id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   sourceClass: SourceClassSchema,
   authority: AuthoritySchema,
+  work: WorkMetadataSchema.optional(),
   origins: z.array(OriginSchema).min(1),
   supports: z.array(ClaimClassSchema).min(1),
   domains: z.array(
@@ -151,6 +167,7 @@ export const PublicationResultSchema = z.object({
 
 export type Claim = z.infer<typeof ClaimSchema>;
 export type ClaimClass = z.infer<typeof ClaimClassSchema>;
+export type Madhhab = z.infer<typeof MadhhabSchema>;
 export type ClaimVerification = z.infer<typeof ClaimVerificationSchema>;
 export type Evidence = z.infer<typeof EvidenceSchema>;
 export type PublicationResult = z.infer<typeof PublicationResultSchema>;

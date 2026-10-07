@@ -6,6 +6,8 @@ classes:
     allows: [source-attribution, scholar-position, madhhab-position, fatwa-summary, hadith-grading, tafsir-statement, comparative-synthesis]
   APPROVED_SCHOLAR_CORPUS:
     allows: [source-attribution, scholar-position, madhhab-position, fatwa-summary, hadith-grading, tafsir-statement, comparative-synthesis]
+  APPROVED_PRIMARY_WORK:
+    allows: [source-attribution, scholar-position, madhhab-position, comparative-synthesis]
   APPROVED_SCHOLARLY_SECONDARY:
     allows: [source-attribution, historical-report, tafsir-statement, comparative-synthesis]
   HISTORICAL_REPORT:

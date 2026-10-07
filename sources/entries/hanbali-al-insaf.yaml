@@ -1,0 +1,34 @@
+id: hanbali-al-insaf
+sourceClass: APPROVED_PRIMARY_WORK
+authority:
+  type: work
+  id: hanbali-al-insaf
+  name: Al-Insaf
+work:
+  id: hanbali-al-insaf
+  titleArabic: الإنصاف في معرفة الراجح من الخلاف
+  titleEnglish: Al-Insaf
+  authorId: ala-al-din-al-mardawi
+  authorName: Ala al-Din al-Mardawi
+  madhhab: hanbali
+  workKind: reference
+  accessProvider: Usul.ai
+  editionNote: "Abd Allah al-Turki and Abd al-Fattah al-Hilu ed.; Hajr, first ed., 1415 AH"
+origins:
+  - host: usul.ai
+    paths:
+      - /ar/t/al-insaf-fi-marifat-al-rajih-min-al-khilaf
+      - /ar/t/al-insaf-fi-marifat-al-rajih-min-al-khilaf/**
+supports:
+  - source-attribution
+  - scholar-position
+  - madhhab-position
+  - comparative-synthesis
+domains:
+  - fiqh
+languages:
+  - ar
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://usul.ai

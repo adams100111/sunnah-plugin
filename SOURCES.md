@@ -11,6 +11,7 @@ A source's presence does not make it interchangeable with every other source.
 - **CANONICAL** — canonical text provider.
 - **OFFICIAL_INSTITUTION** — an institution speaking within its formal scholarly/fiqh remit.
 - **APPROVED_SCHOLAR_CORPUS** — an attributable named-scholar corpus.
+- **APPROVED_PRIMARY_WORK** — a named classical juristic work; the work is the authority object while the website is only its digital access provider.
 - **APPROVED_SCHOLARLY_SECONDARY** — useful scholarly/reference material that must not be silently promoted to primary authority.
 - **EXTERNAL_FACTUAL** — establishes contemporary external facts only.
 
@@ -118,3 +119,37 @@ Current ministry activity is verifiable through Sudan government material, but a
 - scraped book collections without edition/provenance metadata.
 
 These may be useful for discovery, but discovery is not authority.
+
+
+## Four Sunni madhhabs
+
+The four madhhab packs are explicit work-based registry objects. The current digital access layer is Usul.ai; **Usul is not the juristic authority**. Each evidence item remains attributable to the named work/author/madhhab.
+
+A work's presence in a pack permits accurate attribution to that work and contextual use in madhhab research. It does **not** by itself prove that a proposition is the madhhab's relied-upon (`mu'tamad`) position. That stronger claim requires evidence from a work/source that establishes that level of attribution.
+
+### Hanafi — `madhhab-hanafi`
+
+- *Al-Hidaya sharh Bidayat al-Mubtadi* — Burhan al-Din al-Marghinani.
+- *Bada'i al-Sana'i fi Tartib al-Shara'i* — Ala al-Din al-Kasani.
+- *Al-Bahr al-Ra'iq sharh Kanz al-Daqa'iq* — Ibn Nujaym.
+
+### Maliki — `madhhab-maliki`
+
+- *Mukhtasar Khalil* — Khalil ibn Ishaq al-Jundi.
+- *Al-Dhakhira* — Shihab al-Din al-Qarafi.
+- *Hashiyat al-Dusuqi 'ala al-Sharh al-Kabir* — Muhammad al-Dusuqi.
+
+### Shafi'i — `madhhab-shafii`
+
+- *Al-Umm* — Imam al-Shafi'i.
+- *Al-Majmu' sharh al-Muhadhdhab* — Imam al-Nawawi.
+- *Rawdat al-Talibin wa 'Umdat al-Muftin* — Imam al-Nawawi.
+
+### Hanbali — `madhhab-hanbali`
+
+- *Al-Mughni* — Ibn Qudama.
+- *Al-Insaf fi Ma'rifat al-Rajih min al-Khilaf* — al-Mardawi.
+- *Kashshaf al-Qina' 'an Matn al-Iqna'* — al-Buhuti.
+- *Zad al-Mustaqni'* — al-Hajjawi.
+
+These packs are the plugin's baseline madhhab research layer. Future edition/provider changes should update the access/provenance metadata without changing the logical work identity.

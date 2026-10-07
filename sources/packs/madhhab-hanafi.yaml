@@ -1,0 +1,6 @@
+id: madhhab-hanafi
+description: Core Hanafi primary/reference works for attributed Hanafi fiqh research.
+sourceIds:
+  - hanafi-hidaya
+  - hanafi-badai
+  - hanafi-bahr-raiq
