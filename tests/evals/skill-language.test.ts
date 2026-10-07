@@ -15,9 +15,11 @@ describe("skill language and safety evals", () => {
     const arabic = await readFile("skills/sunnah/examples/answer-ar.md", "utf8");
     const english = await readFile("skills/sunnah/examples/answer-en.md", "utf8");
 
-    expect(arabic).toContain("answer in Arabic");
+    expect(arabic).toContain("المصادر والنصوص المسترجعة");
     expect(arabic).toMatch(/[\u0600-\u06FF]/);
-    expect(english).toContain("English explanation");
-    expect(english).toContain("original Arabic source text");
+    expect(arabic).toContain("SCHOLAR_REQUIRED");
+    expect(english).toContain("Sources and retrieved passages");
+    expect(english).toContain("Generated English translation");
+    expect(english).toContain("SCHOLAR_REQUIRED");
   });
 });
