@@ -31,7 +31,7 @@ describe("network security contract", () => {
           fetcher: async () =>
             new Response(null, {
               status: 302,
-              headers: { location: "https://binbaz.org.sa/search?q=redirect" },
+              headers: { location: "https://binbaz.org.sa/about" },
             }),
         },
       ),
