@@ -88,3 +88,45 @@ Prefer explicit dimensions and states:
 - support status;
 - unresolved disagreement;
 - applicability status.
+
+
+## Deployment modes
+
+The runtime deliberately separates the Publication Gate from any one model provider.
+
+### Conservative mode
+
+When `SUNNAH_VERIFIER_URL` is not configured, the runtime uses the built-in conservative verifier. It only marks a claim `ENTAILED` when the normalized claim text is directly present in its cited evidence.
+
+This mode is useful for:
+
+- exact quotations;
+- deterministic source assertions;
+- reproducible local tests;
+- fail-closed operation when no semantic verifier is deployed.
+
+It intentionally blocks ordinary paraphrase/synthesis that cannot be proven by direct containment.
+
+### Independent semantic-verifier mode
+
+For production-quality paraphrase, summarization, and multi-source synthesis, deploy an independent verifier service and set:
+
+```text
+SUNNAH_VERIFIER_URL=https://VERIFIER/verify
+SUNNAH_VERIFIER_TOKEN=...
+```
+
+The runtime sends an HTTP POST with:
+
+```json
+{
+  "claim": { "...": "ClaimSchema" },
+  "evidence": [{ "...": "EvidenceSchema" }]
+}
+```
+
+The verifier response must satisfy `ClaimVerificationSchema` and return one of the support states documented above.
+
+The verifier is independent from the host answer-composition pass. If it fails, times out upstream, returns a malformed object, or cannot establish support, the Publication Gate fails closed.
+
+Sunnah Plugin does not require a specific commercial model or provider for this service. A future Sunnah Engine verifier can implement the same contract.

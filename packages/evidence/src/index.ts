@@ -206,9 +206,16 @@ function decodeHtmlEntities(value: string): string {
     .replaceAll("&#39;", "'");
 }
 
+function preferredHtmlRegion(html: string): string {
+  const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
+  if (main) return main;
+  const article = html.match(/<article\b[^>]*>([\s\S]*?)<\/article>/i)?.[1];
+  return article ?? html;
+}
+
 export function htmlToEvidenceText(html: string): string {
   return decodeHtmlEntities(
-    html
+    preferredHtmlRegion(html)
       .replace(/<(script|style|noscript|svg)[\s\S]*?<\/\1>/gi, " ")
       .replace(/<!--([\s\S]*?)-->/g, " ")
       .replace(/<[^>]+>/g, " ")
@@ -285,8 +292,25 @@ function evidenceId(sourceId: string, documentId: string, passage: string): stri
     .slice(0, 20)}`;
 }
 
+const MAX_EVIDENCE_CHARS = 40_000;
+
 function textForEvidence(contentType: string, text: string): string {
   return contentType === "text/html" ? htmlToEvidenceText(text) : text.trim();
+}
+
+function compactEvidenceText(
+  contentType: string,
+  text: string,
+): { fullPassage: string; passage: string; truncated: boolean } {
+  const fullPassage = textForEvidence(contentType, text);
+  if (fullPassage.length <= MAX_EVIDENCE_CHARS) {
+    return { fullPassage, passage: fullPassage, truncated: false };
+  }
+  return {
+    fullPassage,
+    passage: fullPassage.slice(0, MAX_EVIDENCE_CHARS),
+    truncated: true,
+  };
 }
 
 export async function fetchApprovedUrlEvidence(
@@ -300,17 +324,21 @@ export async function fetchApprovedUrlEvidence(
     throw new Error(`Unknown or inactive source: ${sourceId}`);
   }
   const result = await safeFetchText(new URL(rawUrl), source, options);
-  const passage = textForEvidence(result.contentType, result.text);
+  const { fullPassage, passage, truncated } = compactEvidenceText(
+    result.contentType,
+    result.text,
+  );
   if (!passage) throw new Error("Retrieved source contains no usable text");
 
   return EvidenceSchema.parse({
-    id: evidenceId(source.id, result.url.href, passage),
+    id: evidenceId(source.id, result.url.href, fullPassage),
     sourceId: source.id,
     sourceClass: source.sourceClass,
     authority: source.authority,
     documentId: result.url.href,
     canonicalUrl: result.url.href,
     passage,
+    ...(truncated ? { truncated: true as const } : {}),
     language: source.languages[0] ?? "und",
     registryRevision: registry.revision,
     retrievedAt: new Date().toISOString(),
@@ -324,13 +352,16 @@ export async function fetchUnregisteredUrlEvidence(
   options: FetchPolicy = {},
 ): Promise<Evidence> {
   const result = await safeFetchPublicText(new URL(rawUrl), options);
-  const passage = textForEvidence(result.contentType, result.text);
+  const { fullPassage, passage, truncated } = compactEvidenceText(
+    result.contentType,
+    result.text,
+  );
   if (!passage) throw new Error("Retrieved source contains no usable text");
   const prefix = kind === "user" ? "user" : "external";
   const sourceClass = kind === "user" ? "USER_SUPPLIED_UNTRUSTED" : "EXTERNAL_FACTUAL";
 
   return EvidenceSchema.parse({
-    id: evidenceId(`${prefix}:${result.url.hostname}`, result.url.href, passage),
+    id: evidenceId(`${prefix}:${result.url.hostname}`, result.url.href, fullPassage),
     sourceId: `${prefix}:${result.url.hostname}`,
     sourceClass,
     authority: {
@@ -341,6 +372,7 @@ export async function fetchUnregisteredUrlEvidence(
     documentId: result.url.href,
     canonicalUrl: result.url.href,
     passage,
+    ...(truncated ? { truncated: true as const } : {}),
     language: "und",
     registryRevision: registry.revision,
     retrievedAt: new Date().toISOString(),

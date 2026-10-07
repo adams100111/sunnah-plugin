@@ -14,7 +14,9 @@ const app = createMcpHonoApp();
 const maxBodyBytes = Number.parseInt(process.env.SUNNAH_MAX_REQUEST_BYTES ?? "262144", 10);
 const requestTimeoutMs = Number.parseInt(process.env.SUNNAH_REQUEST_TIMEOUT_MS ?? "60000", 10);
 const rateLimit = Number.parseInt(process.env.SUNNAH_RATE_LIMIT_PER_MINUTE ?? "120", 10);
+const maxRateLimitKeys = Number.parseInt(process.env.SUNNAH_RATE_LIMIT_MAX_KEYS ?? "10000", 10);
 const windows = new Map<string, { startedAt: number; count: number }>();
+const postTimeout = timeout(requestTimeoutMs);
 
 app.get("/health", (c) => c.json({ ok: true, service: "sunnah-plugin" }));
 
@@ -25,27 +27,30 @@ app.use(
     onError: (c) => c.json({ error: "request_too_large" }, 413),
   }),
 );
-app.use("/mcp", timeout(requestTimeoutMs));
+app.use("/mcp", async (c, next) => {
+  if (c.req.method === "POST") return postTimeout(c, next);
+  await next();
+});
 app.use("/mcp", async (c, next) => {
   const key = getConnInfo(c).remote.address ?? "unknown";
   const now = Date.now();
+  for (const [address, value] of windows) {
+    if (now - value.startedAt >= 60_000) windows.delete(address);
+  }
+
   const current = windows.get(key);
-  const windowState =
-    !current || now - current.startedAt >= 60_000
-      ? { startedAt: now, count: 0 }
-      : current;
+  if (!current && windows.size >= maxRateLimitKeys) {
+    c.header("Retry-After", "60");
+    return c.json({ error: "rate_limit_capacity_exceeded" }, 429);
+  }
+
+  const windowState = current ?? { startedAt: now, count: 0 };
   windowState.count += 1;
   windows.set(key, windowState);
 
   if (windowState.count > rateLimit) {
     c.header("Retry-After", "60");
     return c.json({ error: "rate_limit_exceeded" }, 429);
-  }
-
-  if (windows.size > 10_000) {
-    for (const [address, value] of windows) {
-      if (now - value.startedAt >= 60_000) windows.delete(address);
-    }
   }
 
   await next();

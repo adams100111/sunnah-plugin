@@ -100,6 +100,7 @@ export const EvidenceSchema = z.object({
   documentId: z.string().min(1),
   canonicalUrl: z.url(),
   passage: z.string().min(1),
+  truncated: z.literal(true).optional(),
   language: z.string().min(2),
   registryRevision: z.string().min(1),
   retrievedAt: z.iso.datetime(),
