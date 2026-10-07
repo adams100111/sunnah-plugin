@@ -2,7 +2,13 @@ import { createHash } from "node:crypto";
 import { lookup } from "node:dns/promises";
 import { isIP } from "node:net";
 import type { CompiledRegistry } from "@sunnah/registry";
-import { EvidenceSchema, type Evidence, type SourceDefinition } from "@sunnah/schemas";
+import {
+  EvidenceSchema,
+  SearchCandidateSchema,
+  type Evidence,
+  type SearchCandidate,
+  type SourceDefinition,
+} from "@sunnah/schemas";
 
 export type FetchLike = typeof fetch;
 export type ResolveHost = (hostname: string) => Promise<string[]>;
@@ -187,6 +193,67 @@ export function htmlToEvidenceText(html: string): string {
       .replace(/\s+/g, " ")
       .trim(),
   );
+}
+
+
+function extractSearchCandidates(
+  html: string,
+  baseUrl: URL,
+  source: SourceDefinition,
+  limit: number,
+): SearchCandidate[] {
+  const prefixes = source.retrieval.search?.resultPathPrefixes ?? [];
+  const candidates: SearchCandidate[] = [];
+  const seen = new Set<string>();
+  const anchors = html.matchAll(/<a\b[^>]*href=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi);
+
+  for (const match of anchors) {
+    const href = match[1];
+    const rawTitle = match[2];
+    if (!href || !rawTitle) continue;
+
+    let url: URL;
+    try {
+      url = new URL(href, baseUrl);
+    } catch {
+      continue;
+    }
+    if (!sourcePermitsUrl(source, url)) continue;
+    if (!prefixes.some((prefix) => url.pathname.startsWith(prefix))) continue;
+    if (seen.has(url.href)) continue;
+
+    const title = htmlToEvidenceText(rawTitle);
+    if (title.length < 3) continue;
+    seen.add(url.href);
+    candidates.push(SearchCandidateSchema.parse({ sourceId: source.id, title, url: url.href }));
+    if (candidates.length >= limit) break;
+  }
+
+  return candidates;
+}
+
+export async function searchApprovedSource(
+  registry: CompiledRegistry,
+  sourceId: string,
+  query: string,
+  limit = 5,
+  options: FetchPolicy = {},
+): Promise<SearchCandidate[]> {
+  const source = registry.sources[sourceId];
+  if (source?.status !== "active") throw new Error(`Unknown or inactive source: ${sourceId}`);
+  const search = source.retrieval.search;
+  const baseUrl = source.retrieval.baseUrl;
+  if (!search || !baseUrl) throw new Error(`Source ${sourceId} does not provide configured search`);
+
+  const url = new URL(search.path, baseUrl);
+  url.searchParams.set(search.queryParam, query);
+  for (const [key, value] of Object.entries(search.params)) url.searchParams.set(key, value);
+
+  const result = await safeFetchText(url, source, options);
+  if (result.contentType !== "text/html") {
+    throw new Error(`Source ${sourceId} search must return HTML`);
+  }
+  return extractSearchCandidates(result.text, result.url, source, Math.min(Math.max(limit, 1), 20));
 }
 
 function evidenceId(sourceId: string, documentId: string, passage: string): string {

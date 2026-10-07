@@ -2,12 +2,13 @@ import {
   fetchApprovedUrlEvidence,
   fetchQuranVerseEvidence,
   fetchUnregisteredUrlEvidence,
+  searchApprovedSource,
   findRegisteredSourceForUrl,
   type FetchPolicy,
   type QuranFoundationCredentials,
 } from "@sunnah/evidence";
 import type { CompiledRegistry } from "@sunnah/registry";
-import type { Claim, Evidence, PublicationResult } from "@sunnah/schemas";
+import type { Claim, Evidence, PublicationResult, SearchCandidate } from "@sunnah/schemas";
 import {
   ConservativeSemanticVerifier,
   HttpSemanticVerifier,
@@ -43,6 +44,35 @@ export class SunnahRuntime {
       );
     }
     return fetchQuranVerseEvidence(this.options.registry, verseKey, credentials);
+  }
+
+  async searchIslamicEvidence(
+    query: string,
+    sourceIds?: string[],
+    limit = 5,
+  ): Promise<SearchCandidate[]> {
+    const ids =
+      sourceIds ??
+      Object.values(this.options.registry.sources)
+        .filter((source) => source.status === "active" && source.retrieval.search)
+        .map((source) => source.id);
+
+    const results = await Promise.all(
+      ids.map(async (sourceId) => {
+        try {
+          return await searchApprovedSource(
+            this.options.registry,
+            sourceId,
+            query,
+            limit,
+            this.options.fetchPolicy,
+          );
+        } catch {
+          return [];
+        }
+      }),
+    );
+    return results.flat().slice(0, Math.min(Math.max(limit, 1), 20));
   }
 
   async fetchIslamicEvidence(sourceId: string, url: string): Promise<Evidence> {

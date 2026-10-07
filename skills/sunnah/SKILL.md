@@ -49,6 +49,7 @@ Do not load unrelated domain references.
 Use the plugin evidence tools instead of generic browsing for Islamic authority:
 
 - `get_quran_verse`
+- `search_islamic_evidence`
 - `fetch_islamic_evidence`
 - `verify_claims`
 - `verify_quotation`

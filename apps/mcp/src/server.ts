@@ -1,9 +1,15 @@
 import { McpServer } from "@modelcontextprotocol/server";
-import { ClaimSchema, EvidenceSchema, PublicationResultSchema } from "@sunnah/schemas";
+import {
+  ClaimSchema,
+  EvidenceSchema,
+  PublicationResultSchema,
+  SearchCandidateSchema,
+} from "@sunnah/schemas";
 import type { SunnahRuntime } from "@sunnah/runtime";
 import { z } from "zod";
 
 const EvidenceOutputSchema = z.object({ evidence: EvidenceSchema });
+const SearchOutputSchema = z.object({ candidates: z.array(SearchCandidateSchema) });
 const VerificationOutputSchema = z.object({ result: PublicationResultSchema });
 const QuotationOutputSchema = z.object({
   evidence: EvidenceSchema,
@@ -37,6 +43,22 @@ export function createSunnahMcpServer(runtime: SunnahRuntime): McpServer {
       outputSchema: EvidenceOutputSchema,
     },
     async ({ verseKey }) => result({ evidence: await runtime.getQuranVerse(verseKey) }),
+  );
+
+  server.registerTool(
+    "search_islamic_evidence",
+    {
+      title: "Search approved Islamic evidence",
+      description: "Search only configured approved Islamic sources and return compact candidate URLs for subsequent evidence fetch.",
+      inputSchema: z.object({
+        query: z.string().min(2),
+        sourceIds: z.array(z.string().min(1)).optional(),
+        limit: z.number().int().min(1).max(20).default(5),
+      }),
+      outputSchema: SearchOutputSchema,
+    },
+    async ({ query, sourceIds, limit }) =>
+      result({ candidates: await runtime.searchIslamicEvidence(query, sourceIds, limit) }),
   );
 
   server.registerTool(

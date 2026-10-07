@@ -27,6 +27,13 @@ export const ClaimClassSchema = z.enum([
 
 export const RetrievalTypeSchema = z.enum(["quran-foundation", "http-html"]);
 
+export const SearchConfigSchema = z.object({
+  path: z.string().startsWith("/"),
+  queryParam: z.string().min(1).default("q"),
+  params: z.record(z.string(), z.string()).default({}),
+  resultPathPrefixes: z.array(z.string().startsWith("/")).min(1),
+}).strict();
+
 export const AuthoritySchema = z.object({
   type: z.enum(["canonical", "institution", "scholar", "secondary", "historical", "external"]),
   id: z.string().min(1),
@@ -41,6 +48,7 @@ export const OriginSchema = z.object({
 export const RetrievalSchema = z.object({
   type: RetrievalTypeSchema,
   baseUrl: z.url().optional(),
+  search: SearchConfigSchema.optional(),
 }).strict();
 
 export const SourceDefinitionSchema = z.object({
@@ -76,6 +84,12 @@ export const SourceClassPolicySchema = z.object({
     SourceClassSchema,
     z.object({ allows: z.array(ClaimClassSchema) }).strict(),
   ),
+}).strict();
+
+export const SearchCandidateSchema = z.object({
+  sourceId: z.string().min(1),
+  title: z.string().min(1),
+  url: z.url(),
 }).strict();
 
 export const EvidenceSchema = z.object({
@@ -140,6 +154,7 @@ export type ClaimVerification = z.infer<typeof ClaimVerificationSchema>;
 export type Evidence = z.infer<typeof EvidenceSchema>;
 export type PublicationResult = z.infer<typeof PublicationResultSchema>;
 export type RegistryIndex = z.infer<typeof RegistryIndexSchema>;
+export type SearchCandidate = z.infer<typeof SearchCandidateSchema>;
 export type SourceClassPolicy = z.infer<typeof SourceClassPolicySchema>;
 export type SourceDefinition = z.infer<typeof SourceDefinitionSchema>;
 export type SourcePack = z.infer<typeof SourcePackSchema>;

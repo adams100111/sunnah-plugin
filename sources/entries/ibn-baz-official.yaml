@@ -22,3 +22,10 @@ status: active
 retrieval:
   type: http-html
   baseUrl: https://binbaz.org.sa
+  search:
+    path: /search
+    queryParam: q
+    params:
+      type: fatwa
+    resultPathPrefixes:
+      - /fatwas/
