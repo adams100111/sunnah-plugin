@@ -1,5 +1,14 @@
 {
   "name": "sunnah-plugin",
   "version": "0.1.0",
-  "description": "Grounded Sunni Islamic knowledge and source verification using the canonical Sunnah skill."
+  "description": "Grounded Sunni Islamic knowledge and source verification using the canonical Sunnah skill.",
+  "mcpServers": {
+    "sunnah": {
+      "command": "node",
+      "args": [
+        "${extensionPath}/scripts/local-mcp-bootstrap.mjs"
+      ],
+      "cwd": "${extensionPath}"
+    }
+  }
 }

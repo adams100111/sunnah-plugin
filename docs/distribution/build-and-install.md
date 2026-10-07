@@ -63,3 +63,44 @@ docker run --rm -p 3000:3000 --env-file .env sunnah-plugin
 ```
 
 Use the resulting public HTTPS `/mcp` endpoint when building marketplace artifacts.
+
+
+## Runtime modes
+
+### Skill-only
+
+The canonical skill does not require MCP to load. If MCP is absent, it enters Lite mode and may use host-native retrieval according to `skills/sunnah/references/lite-mode.md`. It must not claim server-side Publication Gate verification.
+
+### Local marketplace / harness installation
+
+The repository now includes:
+
+- root portable `mcp.json`
+- `.codex-plugin/plugin.json`
+- `.mcp.json`
+- `scripts/local-mcp-bootstrap.mjs`
+- local stdio MCP implementation at `apps/mcp/src/stdio.ts`
+
+Supported local clients that install the repository/plugin can spawn the stdio MCP directly. OpenAI documents bundled stdio MCP for Codex/ChatGPT desktop local marketplaces, while Gemini CLI extensions support `command` + `args` stdio MCP servers. Claude-compatible local plugin clients can use the same root `.mcp.json`.
+
+The bootstrap requires Node.js 22.12+ and Corepack/pnpm availability. On first launch it installs the exact locked dependency graph and builds the runtime if the built files are absent.
+
+This local package is **not** the ChatGPT Web public-plugin transport. ChatGPT Web requires a remote HTTPS MCP endpoint for full mode.
+
+### Private remote token
+
+For a private deployment:
+
+```text
+SUNNAH_MCP_TOKEN=<long-random-secret>
+```
+
+The server then requires:
+
+```http
+Authorization: Bearer <token>
+```
+
+on `/mcp`. Keep the token out of Git/plugin archives.
+
+Claude remote connectors support configuring a fixed request header. Local OpenAI/Codex MCP configurations can source bearer tokens from environment variables. ChatGPT Web's current plugin authentication flow should not be assumed to support an arbitrary private fixed bearer secret; use no-auth for a private/non-sensitive endpoint or standards-compliant OAuth when ChatGPT Web authentication is required.

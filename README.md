@@ -11,7 +11,7 @@ The plugin gives a host model access to approved Islamic evidence and a determin
 Sunnah Plugin currently provides:
 
 - one canonical `sunnah` Agent Skill with progressive domain/workflow guidance;
-- a remote Streamable HTTP MCP server and local stdio development transport;
+- three explicit runtime modes: skill-only Lite, local stdio Full, and remote HTTPS Full;
 - a Git-native Source Registry and source packs;
 - exact Qur'an retrieval through the configured canonical provider;
 - approved-source search and direct evidence retrieval;
@@ -92,6 +92,26 @@ Publication Gate
   ↓
 Grounded answer / disagreement / abstention / scholar escalation
 ```
+
+## Runtime modes
+
+### Skill-only Lite
+
+The `sunnah` skill can operate without the Sunnah MCP server when the host has its own trustworthy retrieval tools. Lite mode restricts answers to retrieved approved sources and does not claim that the server-side Publication Gate ran.
+
+Without MCP **and** without any retrieval capability, the skill fails closed for substantive Islamic claims.
+
+### Local Full
+
+Supported local harnesses can launch the bundled stdio MCP from the repository/plugin package through `.mcp.json`. The first launch bootstraps pinned pnpm dependencies and builds the local runtime if needed; protocol traffic remains on stdout and bootstrap diagnostics go to stderr.
+
+This mode needs no VPS.
+
+### Remote Full
+
+Web clients use the same runtime over HTTPS. Set `SUNNAH_MCP_TOKEN` to require a private bearer token on `/mcp`; leave it unset for an intentionally unauthenticated deployment.
+
+The health endpoint remains public.
 
 ## Quick start
 

@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "sunnah": {
+      "command": "node",
+      "args": ["./scripts/local-mcp-bootstrap.mjs"],
+      "cwd": "."
+    }
+  }
+}
