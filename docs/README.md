@@ -28,6 +28,7 @@ The repository README is intentionally an entry point. Detailed rules belong her
 - [Islamic Methodology](methodology/islamic-methodology.md)
 - [Trust Model](methodology/trust-model.md)
 - [Source Authority](methodology/source-authority.md)
+- [Source Admission and Review](methodology/source-admission.md)
 - [Evidence Policy](methodology/evidence-policy.md)
 - [Attribution](methodology/attribution.md)
 - [Disagreement](methodology/disagreement.md)
@@ -41,10 +42,14 @@ The repository README is intentionally an entry point. Detailed rules belong her
 - [Portability](architecture/portability.md)
 - [Skill Architecture](architecture/skill-architecture.md)
 - [MCP Evidence Runtime](architecture/mcp-evidence-runtime.md)
+- [Retrieval](architecture/retrieval.md)
 - [Claim Verification](architecture/claim-verification.md)
 - [Source Registry](architecture/source-registry.md)
 - [Source Packs](architecture/source-packs.md)
+- [User-Provided Sources](architecture/user-sources.md)
 - [Output Contract](architecture/output-contract.md)
+- [Security](architecture/security.md)
+- [Maintainer CLI](architecture/cli.md)
 - [Sunnah Engine Boundary](architecture/sunnah-engine-boundary.md)
 - [Source Studio](architecture/source-studio.md)
 
@@ -92,4 +97,4 @@ The repository README is intentionally an entry point. Detailed rules belong her
 
 ### Architecture decisions
 
-See [ADR directory](adr/).
+ADRs live under [adr/](adr/).
