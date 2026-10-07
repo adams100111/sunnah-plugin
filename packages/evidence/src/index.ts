@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { lookup } from "node:dns/promises";
 import { isIP } from "node:net";
+import { guardedFetch } from "guarded-fetch";
 import type { CompiledRegistry } from "@sunnah/registry";
 import {
   EvidenceSchema,
@@ -126,21 +127,37 @@ async function fetchTextWithGuard(
   initialUrl: URL,
   policy: FetchPolicy,
   permits: (url: URL) => boolean,
+  allowedHosts?: string[],
 ): Promise<{ url: URL; contentType: string; text: string }> {
-  const fetcher = policy.fetcher ?? fetch;
-  const resolveHost = policy.resolveHost ?? defaultResolveHost;
   const maxBytes = policy.maxBytes ?? 2_000_000;
   const maxRedirects = policy.maxRedirects ?? 3;
+  const injectedTransport = policy.fetcher !== undefined || policy.resolveHost !== undefined;
+  const fetcher = policy.fetcher ?? fetch;
+  const resolveHost = policy.resolveHost ?? defaultResolveHost;
   let url = initialUrl;
 
   for (let redirects = 0; redirects <= maxRedirects; redirects += 1) {
     if (!permits(url)) throw new Error("URL is not permitted by the active fetch policy");
-    await assertPublicDestination(url, resolveHost);
 
-    const response = await fetcher(url, {
-      redirect: "manual",
-      headers: { "user-agent": "sunnah-plugin/0.1" },
-    });
+    let response: Response;
+    if (injectedTransport) {
+      await assertPublicDestination(url, resolveHost);
+      response = await fetcher(url, {
+        redirect: "manual",
+        headers: { "user-agent": "sunnah-plugin/0.1" },
+      });
+    } else {
+      response = await guardedFetch(url, {
+        httpsOnly: true,
+        ...(allowedHosts ? { allowedHosts } : {}),
+        followRedirects: false,
+        maxRedirects: 0,
+        timeoutMs: 10_000,
+        headers: { "user-agent": "sunnah-plugin/0.1" },
+        opaqueErrors: true,
+      });
+    }
+
     if (response.status >= 300 && response.status < 400) {
       const location = response.headers.get("location");
       if (!location) throw new Error("Redirect response is missing Location");
@@ -164,7 +181,12 @@ export async function safeFetchText(
   source: SourceDefinition,
   policy: FetchPolicy = {},
 ): Promise<{ url: URL; contentType: string; text: string }> {
-  return fetchTextWithGuard(initialUrl, policy, (url) => sourcePermitsUrl(source, url));
+  return fetchTextWithGuard(
+    initialUrl,
+    policy,
+    (url) => sourcePermitsUrl(source, url),
+    source.origins.map((origin) => origin.host),
+  );
 }
 
 export async function safeFetchPublicText(
@@ -350,13 +372,21 @@ export async function fetchQuranVerseEvidence(
   url.searchParams.set("words", "false");
   url.searchParams.set("fields", "text_uthmani");
 
-  const response = await fetcher(url, {
-    headers: {
-      "x-client-id": credentials.clientId,
-      "x-auth-token": credentials.accessToken,
-      "user-agent": "sunnah-plugin/0.1",
-    },
-  });
+  const headers = {
+    "x-client-id": credentials.clientId,
+    "x-auth-token": credentials.accessToken,
+    "user-agent": "sunnah-plugin/0.1",
+  };
+  const response =
+    fetcher === fetch
+      ? await guardedFetch(url, {
+          httpsOnly: true,
+          allowedHosts: [url.hostname],
+          timeoutMs: 10_000,
+          headers,
+          opaqueErrors: true,
+        })
+      : await fetcher(url, { headers });
   if (!response.ok) throw new Error(`Quran Foundation returned HTTP ${response.status}`);
 
   const payload = (await response.json()) as {
