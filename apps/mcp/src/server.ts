@@ -15,10 +15,10 @@ const UserSourceOutputSchema = z.object({
   evidence: EvidenceSchema,
 });
 
-function result<T extends Record<string, unknown>>(value: T) {
+function result<T extends object>(value: T) {
   return {
     content: [{ type: "text" as const, text: JSON.stringify(value) }],
-    structuredContent: value,
+    structuredContent: value as Record<string, unknown>,
   };
 }
 
