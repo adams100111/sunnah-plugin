@@ -8,6 +8,9 @@ origins:
   - host: islamweb.net
     paths:
       - /**
+  - host: www.islamweb.net
+    paths:
+      - /**
 supports:
   - source-attribution
   - historical-report
