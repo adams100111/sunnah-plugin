@@ -26,6 +26,7 @@ The repository README is intentionally an entry point. Detailed rules belong her
 ### Methodology
 
 - [Islamic Methodology](methodology/islamic-methodology.md)
+- [Four Madhhab Source Model](methodology/four-madhhabs.md)
 - [Trust Model](methodology/trust-model.md)
 - [Source Authority](methodology/source-authority.md)
 - [Source Admission and Review](methodology/source-admission.md)
