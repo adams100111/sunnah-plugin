@@ -1,0 +1,11 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "sunnah-plugin",
+  "version": "0.1.0",
+  "description": "Grounded Sunni Islamic knowledge, research, comparison, and source verification using approved evidence.",
+  "author": { "name": "A.D Adams", "url": "https://github.com/adams100111" },
+  "homepage": "https://github.com/adams100111/sunnah-plugin",
+  "repository": "https://github.com/adams100111/sunnah-plugin",
+  "license": "MIT",
+  "keywords": ["islam", "sunni", "quran", "hadith", "fiqh", "research", "verification"]
+}
