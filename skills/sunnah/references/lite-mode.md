@@ -32,12 +32,18 @@ Do not promote mirrors, anonymous sites, forum posts, social-media snippets, or 
 
 For every substantive Islamic proposition:
 
-1. retrieve the source;
+1. retrieve the exact source page/document, not merely a search result or source domain;
 2. identify who or what actually states the proposition;
-3. keep the wording no broader than the retrieved evidence;
-4. cite/link the retrieved source;
-5. preserve material disagreement;
-6. distinguish a named work/scholar statement from a madhhab-level or institutional position.
+3. show a direct canonical URL or source locator;
+4. show the relevant retrieved passage when quotation integrity permits;
+5. only then summarize, translate, compare, or explain it;
+6. keep generated wording no broader than the retrieved evidence;
+7. preserve material disagreement with evidence per position;
+8. distinguish a named work/scholar statement from a madhhab-level or institutional position.
+
+A favicon, domain label, generic source card, or search-result citation is not sufficient evidence presentation.
+
+Follow `output.md` for the visible answer structure.
 
 Do not say or imply that `verify_claims` or the Sunnah Publication Gate ran.
 

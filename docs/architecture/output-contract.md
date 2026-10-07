@@ -52,19 +52,49 @@ INSUFFICIENT_EVIDENCE
 SCHOLAR_REQUIRED
 ```
 
+## Source-first publication
+
+A substantive Islamic answer is evidence-first, not citation-after-the-fact.
+
+The semantic order is:
+
+```text
+source identity + direct locator
+        ↓
+exact relevant retrieved passage
+        ↓
+attribution level
+        ↓
+generated summary / translation / comparison
+```
+
+Generated language is presentation of Islamic Evidence. It is not an alternate origin for Islamic knowledge.
+
+A host must not lead with a model-generated religious conclusion and then attach a source merely because the source is topically related.
+
 ## Claim-level evidence
 
-Substantive Islamic claims reference evidence IDs.
+Substantive Islamic claims reference evidence IDs, and the user-facing answer exposes the supporting evidence.
 
-The host adapter may render these as:
+For each material position, the rendered answer should preserve:
 
-- inline citations;
-- footnotes;
-- source cards;
-- expandable evidence;
-- numbered links.
+- source/work/scholar/institution identity;
+- direct canonical URL or source locator;
+- relevant retrieved source-language passage when quotation integrity permits;
+- attribution level;
+- generated summary or translation as a distinct layer.
 
-Presentation changes; evidence identity does not.
+A domain name, favicon, generic source card, or search result is not a substitute for a direct source locator and the relevant retrieved material.
+
+Host presentation may vary, but evidence must remain visibly upstream of generated Islamic summaries.
+
+## Personal applicability
+
+A general rule and its application to a user's circumstances are separate claims.
+
+The plugin may state personal applicability only when permitted retrieved evidence directly establishes the relevant mapping. If the evidence establishes the general rule but the final application requires juristic judgment, the result is `SCHOLAR_REQUIRED`.
+
+A model-generated inference cannot fill the applicability gap.
 
 ## Arabic and English
 
