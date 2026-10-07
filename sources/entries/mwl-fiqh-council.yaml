@@ -1,0 +1,23 @@
+id: mwl-fiqh-council
+sourceClass: OFFICIAL_INSTITUTION
+authority:
+  type: institution
+  id: muslim-world-league-fiqh-council
+  name: Islamic Fiqh Council of the Muslim World League
+origins:
+  - host: themwl.org
+    paths:
+      - /ar/almjm-alfqhy-alaslamy
+      - /ar/taxonomy/term/37
+      - /ar/**
+supports:
+  - source-attribution
+  - scholar-position
+  - fatwa-summary
+  - comparative-synthesis
+domains: [fiqh, fatwa]
+languages: [ar]
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://themwl.org

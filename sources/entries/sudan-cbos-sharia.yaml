@@ -1,0 +1,23 @@
+id: sudan-cbos-sharia
+sourceClass: OFFICIAL_INSTITUTION
+authority:
+  type: institution
+  id: sudan-higher-sharia-supervisory-board
+  name: Higher Sharia Supervisory Board of the Sudanese Banking and Financial System
+origins:
+  - host: cbos.gov.sd
+    paths:
+      - /ar/content/**
+      - /ar/node/**
+      - /sites/default/files/**
+supports:
+  - source-attribution
+  - scholar-position
+  - fatwa-summary
+  - comparative-synthesis
+domains: [fiqh, fatwa]
+languages: [ar]
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://cbos.gov.sd

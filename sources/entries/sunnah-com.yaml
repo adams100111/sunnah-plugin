@@ -1,0 +1,18 @@
+id: sunnah-com
+sourceClass: APPROVED_SCHOLARLY_SECONDARY
+authority:
+  type: secondary
+  id: sunnah-com
+  name: Sunnah.com
+origins:
+  - host: sunnah.com
+    paths:
+      - /**
+supports:
+  - source-attribution
+domains: [hadith]
+languages: [ar, en]
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://sunnah.com

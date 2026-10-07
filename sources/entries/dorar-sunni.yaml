@@ -1,0 +1,21 @@
+id: dorar-sunni
+sourceClass: APPROVED_SCHOLARLY_SECONDARY
+authority:
+  type: secondary
+  id: dorar-al-sunniyyah
+  name: Dorar al-Sunniyyah
+origins:
+  - host: dorar.net
+    paths:
+      - /**
+supports:
+  - source-attribution
+  - historical-report
+  - tafsir-statement
+  - comparative-synthesis
+domains: [hadith, tafsir, fiqh, aqeedah, seerah, history]
+languages: [ar]
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://dorar.net

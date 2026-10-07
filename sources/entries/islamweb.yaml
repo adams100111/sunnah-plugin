@@ -1,0 +1,20 @@
+id: islamweb
+sourceClass: APPROVED_SCHOLARLY_SECONDARY
+authority:
+  type: secondary
+  id: islamweb
+  name: Islamweb
+origins:
+  - host: islamweb.net
+    paths:
+      - /**
+supports:
+  - source-attribution
+  - historical-report
+  - comparative-synthesis
+domains: [quran, hadith, tafsir, fiqh, aqeedah, seerah, history, fatwa]
+languages: [ar, en]
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://www.islamweb.net

@@ -1,0 +1,22 @@
+id: iifa-oic
+sourceClass: OFFICIAL_INSTITUTION
+authority:
+  type: institution
+  id: international-islamic-fiqh-academy
+  name: International Islamic Fiqh Academy
+origins:
+  - host: iifa-aifi.org
+    paths:
+      - /en/resolutions/**
+      - /ar/**
+supports:
+  - source-attribution
+  - scholar-position
+  - fatwa-summary
+  - comparative-synthesis
+domains: [fiqh, fatwa]
+languages: [ar, en]
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://iifa-aifi.org

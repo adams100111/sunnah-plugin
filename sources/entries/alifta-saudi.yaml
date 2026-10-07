@@ -1,0 +1,24 @@
+id: alifta-saudi
+sourceClass: OFFICIAL_INSTITUTION
+authority:
+  type: institution
+  id: saudi-general-presidency-ifta
+  name: General Presidency of Islamic Research and Ifta
+origins:
+  - host: alifta.gov.sa
+    paths:
+      - /Ar/IftaContents/**
+      - /En/IftaContents/**
+      - /fatwa-committee
+      - /senior-scholars-council
+supports:
+  - source-attribution
+  - scholar-position
+  - fatwa-summary
+  - comparative-synthesis
+domains: [fiqh, aqeedah, fatwa]
+languages: [ar, en]
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://alifta.gov.sa

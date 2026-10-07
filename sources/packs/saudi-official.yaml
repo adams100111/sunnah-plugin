@@ -1,4 +1,8 @@
 id: saudi-official
-description: Approved official Saudi scholar source set currently available to the plugin.
+description: Official Saudi institutions and named Saudi scholar corpora.
 sourceIds:
+  - alifta-saudi
   - ibn-baz-official
+  - ibn-uthaymeen-official
+  - quran-complex-saudi
+  - mwl-fiqh-council
