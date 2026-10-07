@@ -4,6 +4,7 @@
     { "path": "./packages/schemas" },
     { "path": "./packages/registry" },
     { "path": "./packages/evidence" },
+    { "path": "./packages/verification" },
     { "path": "./packages/cli" }
   ]
 }
