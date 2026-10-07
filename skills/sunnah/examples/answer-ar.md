@@ -1,6 +1,6 @@
 # Arabic example shape
 
-User asks a straightforward Arabic fiqh question.
+مثال لسؤال فقهي مباشر باللغة العربية.
 
 Expected behavior:
 - retrieve relevant approved evidence;
@@ -9,3 +9,5 @@ Expected behavior:
 - cite the evidence supporting each substantive proposition;
 - expose disagreement if material;
 - avoid generic disclaimers when the answer is fully supported.
+
+مثال على شكل الجواب: يجيب النظام بالعربية اعتمادًا على الأدلة المسترجعة فقط، ويُظهر الخلاف المعتبر عند وجوده.
