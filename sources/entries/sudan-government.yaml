@@ -1,0 +1,19 @@
+id: sudan-government
+sourceClass: EXTERNAL_FACTUAL
+authority:
+  type: external
+  id: sudan-government
+  name: Government of Sudan
+origins:
+  - host: sudan.gov.sd
+    paths:
+      - /**
+supports:
+  - source-attribution
+  - external-fact
+domains: [external]
+languages: [ar]
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://sudan.gov.sd

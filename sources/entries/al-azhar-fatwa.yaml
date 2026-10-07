@@ -1,0 +1,27 @@
+id: al-azhar-fatwa
+sourceClass: OFFICIAL_INSTITUTION
+authority:
+  type: institution
+  id: al-azhar-global-fatwa-center
+  name: Al-Azhar Global Center for Electronic Fatwa
+origins:
+  - host: azhar.eg
+    paths:
+      - /fatwacenter/**
+      - /fatwacenter
+  - host: service.azhar.eg
+    paths:
+      - /Services/FatawaBank/**
+supports:
+  - source-attribution
+  - scholar-position
+  - fatwa-summary
+  - hadith-grading
+  - tafsir-statement
+  - comparative-synthesis
+domains: [quran, hadith, tafsir, fiqh, aqeedah, seerah, fatwa]
+languages: [ar]
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://service.azhar.eg

@@ -1,0 +1,19 @@
+id: islamqa
+sourceClass: APPROVED_SCHOLARLY_SECONDARY
+authority:
+  type: secondary
+  id: islamqa
+  name: Islam Question and Answer
+origins:
+  - host: islamqa.info
+    paths:
+      - /**
+supports:
+  - source-attribution
+  - comparative-synthesis
+domains: [quran, hadith, tafsir, fiqh, aqeedah, seerah, history, fatwa]
+languages: [ar, en]
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://islamqa.info

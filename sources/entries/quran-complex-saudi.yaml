@@ -1,0 +1,19 @@
+id: quran-complex-saudi
+sourceClass: OFFICIAL_INSTITUTION
+authority:
+  type: institution
+  id: king-fahd-quran-complex
+  name: King Fahd Glorious Qur'an Printing Complex
+origins:
+  - host: qurancomplex.gov.sa
+    paths:
+      - /**
+supports:
+  - source-attribution
+  - tafsir-statement
+domains: [quran, tafsir]
+languages: [ar]
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://qurancomplex.gov.sa

@@ -1,206 +1,136 @@
 # Sunnah Plugin
 
-**Sunnah Plugin** is a portable Sunni Islamic knowledge plugin for Claude, ChatGPT, Gemini, and other Agent Skills/MCP-compatible agent environments.
-
-Its core rule is simple:
+Sunnah Plugin is a portable, citation-first Sunni Islamic knowledge plugin for Claude, ChatGPT/OpenAI, Gemini, Codex, Claude Code, and other Agent Skills/MCP-compatible hosts.
 
 > **Language may be generated. Islamic knowledge must be sourced.**
 
-Sunnah Plugin is designed to answer, explain, summarize, compare, research, and verify Islamic knowledge while preventing the host LLM from silently turning its own parametric memory into religious authority.
+The plugin gives a host model access to approved Islamic evidence and a deterministic Publication Gate. The host may explain, summarize, compare, and translate retrieved material, but it may not silently turn parametric model memory into religious authority.
 
-It is a standalone product. It does **not** require Sunnah Engine, but it is deliberately designed so Sunnah Engine can later become its stronger evidence backend without changing the user-facing contract.
+## Capabilities
 
-## What it is
+Sunnah Plugin currently provides:
 
-Sunnah Plugin combines:
+- one canonical `sunnah` Agent Skill with progressive domain/workflow guidance;
+- a remote Streamable HTTP MCP server and local stdio development transport;
+- a Git-native Source Registry and source packs;
+- exact Qur'an retrieval through the configured canonical provider;
+- approved-source search and direct evidence retrieval;
+- user-URL inspection without automatic trust promotion;
+- external-factual evidence separated from Islamic-authority evidence;
+- claim-level source eligibility, quotation integrity, applicability, and semantic-support checks;
+- explicit `ANSWERED`, `PARTIALLY_ANSWERED`, `DISAGREEMENT`, `INSUFFICIENT_EVIDENCE`, and `SCHOLAR_REQUIRED` states;
+- Claude, OpenAI, Gemini, and generic Agent Skills/MCP distribution generation;
+- adversarial, source-governance, Arabic/English, context-bound, and cross-host evals.
 
-- one portable public `sunnah` Agent Skill;
-- progressively disclosed domain and workflow instructions;
-- a hosted remote HTTPS MCP evidence runtime;
-- a Git-native source registry and source packs;
-- deterministic source and citation validation;
-- claim-level evidence mapping;
-- independent semantic support verification when needed;
-- host-specific packaging for Claude, ChatGPT/OpenAI, Gemini, and compatible harnesses;
-- an evaluation suite for trust, security, source selection, and cross-host behavior.
-
-## What it is not
-
-Sunnah Plugin is not:
-
-- an "AI Sheikh";
-- an autonomous mufti;
-- a scholar simulator;
-- a generic Islamic system prompt;
-- a giant bundled Islamic corpus;
-- an admin platform;
-- a replacement for Sunnah Engine;
-- a system that treats arbitrary web pages as Islamic authority.
-
-## Scope
-
-The target Sunni knowledge domains include:
-
-- Qur'an;
-- tafsir;
-- hadith and hadith sciences;
-- fiqh and usul al-fiqh;
-- the four major Sunni madhhabs;
-- aqeedah;
-- seerah;
-- Islamic history;
-- biographies and tarajim;
-- adhkar, worship, manners, and ethics;
-- fatwa retrieval and faithful summarization;
-- contemporary questions requiring external factual research;
-- quote, source, and claim verification.
-
-See [Scope](docs/vision/scope.md).
-
-## Trust model
+## Trust boundary
 
 A substantive Islamic claim is publishable only when:
 
 ```text
 permitted evidence exists
         +
-source policy allows that evidence for the claim
+the source is permitted for that claim class
         +
-citation / quotation integrity passes
+quotation/citation integrity passes
         +
 the evidence actually supports the claim
 ```
 
-The host model may compose language, but it cannot waive the publication gate.
+Important invariants:
 
-When recognized Sunni scholarship differs, the default is to preserve and attribute the disagreement. Users may explicitly select lenses such as a madhhab, scholar corpus, or contemporary institution.
+1. Parametric model memory is never Islamic authority.
+2. Qur'an and hadith quotations must come from retrieved/stored text, not model reconstruction.
+3. A real citation does not make an unsupported interpretation valid.
+4. User-provided URLs are data, not automatically trusted authority.
+5. External factual sources can establish facts about the world; they cannot establish a religious ruling.
+6. Recognized Sunni disagreement is attributed and preserved rather than silently collapsed.
+7. A scholar is never simulated. If no attributable position is found, the plugin says so.
+8. Personal applicability may require `SCHOLAR_REQUIRED` even when a general rule is well sourced.
+9. Retrieval or verification failure fails closed.
 
-When the evidence does not justify applying a ruling to a user's specific circumstances, the plugin may return the sourced general rule while marking the case `SCHOLAR_REQUIRED`.
+See [Trust Model](docs/methodology/trust-model.md), [Evidence Policy](docs/methodology/evidence-policy.md), and [Claim Verification](docs/architecture/claim-verification.md).
 
-See [Trust Model](docs/methodology/trust-model.md), [Evidence Policy](docs/methodology/evidence-policy.md), and [Disagreement](docs/methodology/disagreement.md).
+## Source system
+
+Sources are declarative YAML under `sources/`. A source entry defines identity, authority type, origin/path scope, supported claim classes, domains, languages, status, and retrieval configuration.
+
+The first curated catalog is grouped into:
+
+- **General Sunni** — cross-regional Sunni reference and research sources;
+- **Saudi Arabia** — official Saudi institutions and named scholar corpora;
+- **Sudan** — verified Sudanese official Sharia/Islamic-finance and religious-service sources.
+
+See [SOURCES.md](SOURCES.md) for the current catalog and admission notes.
+
+Source breadth does not imply equal authority. An official collective fiqh academy, a named scholar's official foundation, a hadith research database, and a general Q&A site are intentionally classified differently.
 
 ## Architecture
 
 ```text
 User
   ↓
-Claude / ChatGPT / Gemini / compatible host
+Host model
   ↓
 Sunnah Skill
   ↓
-task + domain routing
+MCP Evidence Runtime
+  ├── source registry / source packs
+  ├── exact lookup / approved search / approved fetch
+  ├── provenance and authority metadata
+  └── external-fact and user-source isolation
   ↓
-remote HTTPS MCP Evidence Runtime
-  ├── source registry
-  ├── source policy
-  ├── approved retrieval
-  ├── provenance
-  ├── canonical text
-  ├── deterministic validation
-  └── semantic verifier where required
+Evidence Bundle
   ↓
-compact Evidence Bundle
+Host synthesis
   ↓
-host LLM synthesis
+Publication Gate
+  ├── source eligibility
+  ├── quotation integrity
+  ├── applicability
+  └── semantic support
   ↓
-claim extraction + Publication Gate
-  ↓
-Grounded Answer
+Grounded answer / disagreement / abstention / scholar escalation
 ```
-
-The plugin's core trust guarantees must work on web surfaces. Local hooks, scripts, and CLI integrations are optional defense-in-depth.
-
-See [Architecture Overview](docs/architecture/overview.md).
-
-## Source model
-
-Git is the source of truth for the plugin's source registry and policies.
-
-```text
-strict YAML
-  ↓
-schema validation
-  ↓
-semantic validation
-  ↓
-compiled runtime representation
-  ↓
-Evidence Runtime
-```
-
-The registry stores metadata and policy, not the Islamic corpus itself.
-
-Changes are PR-first. A future **Source Studio** may provide a human-friendly editor, but it remains an interface over Git rather than a separate database or administration system.
-
-See [Source Registry](docs/architecture/source-registry.md), [Source Packs](docs/architecture/source-packs.md), and [Repository Data Model](docs/data/repository-data-model.md).
-
-## Portability
-
-The canonical implementation is shared.
-
-Host-specific manifests and adapters are thin distribution layers:
-
-```text
-                  canonical Sunnah implementation
-                            │
-              ┌─────────────┼─────────────┐
-              │             │             │
-            Claude        OpenAI        Gemini
-              │             │             │
-          Web + Code     Web + Codex   Web + CLI
-```
-
-A release is incomplete if its core trust guarantees only work in a local coding harness.
-
-See [Portability](docs/architecture/portability.md) and [Distribution](docs/distribution/README.md).
-
-## Technology direction
-
-The planned implementation stack is intentionally lightweight:
-
-- TypeScript;
-- Node.js;
-- pnpm workspaces;
-- MCP TypeScript SDK v2;
-- Hono for the remote HTTP boundary;
-- Zod for canonical runtime schemas and generated JSON Schema where needed;
-- strict YAML for Git-authored registry and policy data;
-- Vitest;
-- Biome;
-- GitHub Actions.
-
-No database, ORM, heavy backend framework, or frontend is required for the core plugin.
-
-See [Technology](docs/architecture/technology.md).
 
 ## Quick start
 
-Requires Node.js 22.12+ (CI uses Node 24) and pnpm 10.
+Requires Node.js 22.12+ and pnpm 10.
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 pnpm check
 pnpm build
 node apps/mcp/dist/http.js
 ```
 
-The HTTP server exposes `/health` and the Streamable HTTP MCP endpoint at `/mcp`.
-Copy `.env.example` into your deployment secret configuration; do not commit credentials.
+The server exposes:
 
-For a containerized deployment:
+- `GET /health`
+- `/mcp` — Streamable HTTP MCP endpoint
+
+For Docker:
 
 ```bash
 docker build -t sunnah-plugin .
 docker run --rm -p 3000:3000 --env-file .env sunnah-plugin
 ```
 
-See [Build and Install Distribution Packages](docs/distribution/build-and-install.md) for host package generation.
+Copy `.env.example` into your deployment secret configuration. Do not commit credentials.
 
-## Developer and maintainer CLI
+## Semantic verification modes
 
-The first-class `sunnah` CLI is for contributors, agents, CI, and maintainers. It is **not** required by end users on Claude, ChatGPT, or Gemini Web.
+Without `SUNNAH_VERIFIER_URL`, the runtime uses a conservative fail-closed verifier and only accepts direct normalized textual support.
 
-Implemented command families include:
+For production-quality paraphrase and multi-source synthesis, configure an independent verifier service:
+
+```text
+SUNNAH_VERIFIER_URL=https://YOUR_VERIFIER/verify
+SUNNAH_VERIFIER_TOKEN=...
+```
+
+The verifier contract is provider-neutral. See [Claim Verification](docs/architecture/claim-verification.md).
+
+## Maintainer CLI
 
 ```text
 sunnah validate
@@ -218,102 +148,46 @@ sunnah mcp dev
 sunnah mcp stdio
 ```
 
-All commands wrap shared core libraries; validation logic is not duplicated across CLI, MCP, CI, or future Source Studio.
-
-## Sunnah Engine boundary
-
-Sunnah Plugin intentionally does **not** implement:
-
-- large-scale corpus ingestion;
-- persistent scholarly knowledge graphs;
-- knowledge promotion workflows;
-- scholar/admin operations;
-- persistent derived knowledge;
-- corpus-wide invalidation infrastructure.
-
-Those belong to [Sunnah Engine](https://github.com/adams100111/sunnah-engine).
-
-Today:
+## Repository map
 
 ```text
-Sunnah Plugin
-  ↓
-Evidence Runtime
-  ↓
-approved external sources
+skills/sunnah/          canonical public Agent Skill
+sources/                source registry, entries, and packs
+policies/               deterministic source-class policy
+packages/schemas/       shared contracts
+packages/registry/      registry loading/validation
+packages/evidence/      retrieval and evidence normalization
+packages/verification/  Publication Gate and semantic-verifier contract
+packages/runtime/       application orchestration
+packages/packaging/     cross-host package generation
+packages/cli/           maintainer CLI
+apps/mcp/               HTTP + stdio MCP server
+tests/                  unit, contract, security, and eval suites
+docs/                   detailed methodology and architecture
 ```
-
-Later:
-
-```text
-Sunnah Plugin
-  ↓
-same evidence contract
-  ↓
-Sunnah Engine
-```
-
-## Development workflow
-
-This repository follows Matt Pocock's engineering flow:
-
-```text
-grill-with-docs + domain-modeling
-        ↓
-to-spec
-        ↓
-to-tickets
-        ↓
-implement-spec
-        ↓
-code-review
-        ↓
-Islamic trust/security evals
-        ↓
-cross-host + marketplace validation
-```
-
-See [AGENTS.md](AGENTS.md).
-
-## Current status
-
-**Production-v1 code complete and merged to `main`.**
-
-The portable skill, Git-native registry, approved-source search/retrieval, Publication Gate, remote MCP runtime, user-source/external-fact workflows, maintainer CLI, cross-host packaging, frozen dependency graph, and trust/security evals have passed the production-v1 release gate.
-
-Operational publication is intentionally separate from code completion: public Claude, ChatGPT/OpenAI, and Gemini installation requires a deployed HTTPS MCP endpoint, runtime credentials, package generation using that endpoint, and each marketplace/account's external submission or installation workflow.
-
-The initial live authority catalog is deliberately curated rather than pretending comprehensive coverage: canonical Qur'an access and Ibn Baz official fatwa search/fetch are configured first. Unsupported source coverage fails closed and can be expanded through the documented registry review process.
 
 ## Documentation
 
-Start with the [documentation map](docs/README.md).
+Start with [docs/README.md](docs/README.md).
 
-Key documents:
+Also see:
 
-- [Product Vision](docs/vision/product-vision.md)
-- [Principles](docs/vision/principles.md)
-- [Trust Model](docs/methodology/trust-model.md)
-- [Islamic Methodology](docs/methodology/islamic-methodology.md)
-- [Architecture Overview](docs/architecture/overview.md)
-- [Portability](docs/architecture/portability.md)
-- [MCP Evidence Runtime](docs/architecture/mcp-evidence-runtime.md)
+- [SOURCES.md](SOURCES.md) — current source catalog and admission status
+- [TODO.md](TODO.md) — actionable implementation/source/publication backlog
+- [ROADMAP.md](ROADMAP.md) — product history, staged roadmap, and release direction
+- [Source Admission](docs/methodology/source-admission.md)
 - [Source Registry](docs/architecture/source-registry.md)
-- [Claim Verification](docs/architecture/claim-verification.md)
+- [Distribution](docs/distribution/README.md)
 - [Testing and Evals](docs/testing/eval-strategy.md)
-- [Roadmap](docs/roadmap/stages.md)
 
-## Guiding questions
+## Sunnah Engine boundary
 
-Every important answer should make it possible to ask:
+Sunnah Plugin stays lightweight and retrieval-oriented. Large-scale corpus ingestion, persistent scholarly knowledge graphs, knowledge promotion, scholar/admin workflows, and deep dependency invalidation belong to [Sunnah Engine](https://github.com/adams100111/sunnah-engine).
 
-- Where did this information come from?
-- Is that source permitted for this kind of claim?
-- Who actually said it?
-- Which methodology or lens does it belong to?
-- Do recognized Sunni scholars disagree?
-- Does the cited evidence actually support the claim?
-- What is established, what is inferred, and what remains unresolved?
-- Where must the system stop?
+The evidence contract is intentionally stable so Sunnah Engine can later replace or augment direct-source adapters without changing the public skill.
 
-That is the product.
+## Status
+
+Production-v1 code is merged and green. The next phase is **source breadth + operational deployment**.
+
+The plugin is not claiming comprehensive Sunni coverage yet. Unsupported source coverage must fail closed until it is admitted through the registry and backed by retrieval/eval coverage.

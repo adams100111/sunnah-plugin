@@ -1,0 +1,19 @@
+id: sudan-nusk
+sourceClass: EXTERNAL_FACTUAL
+authority:
+  type: external
+  id: sudan-nusk
+  name: Nusk Sudan - Hajj and Umrah
+origins:
+  - host: nusk.gov.sd
+    paths:
+      - /**
+supports:
+  - source-attribution
+  - external-fact
+domains: [external]
+languages: [ar]
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://nusk.gov.sd

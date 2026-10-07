@@ -1,0 +1,6 @@
+id: sudan-official
+description: Verified Sudanese official Sharia and religious-service sources.
+sourceIds:
+  - sudan-cbos-sharia
+  - sudan-government
+  - sudan-nusk

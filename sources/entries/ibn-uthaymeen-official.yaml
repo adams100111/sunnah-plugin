@@ -1,0 +1,25 @@
+id: ibn-uthaymeen-official
+sourceClass: APPROVED_SCHOLAR_CORPUS
+authority:
+  type: scholar
+  id: muhammad-ibn-salih-al-uthaymeen
+  name: Muhammad ibn Salih al-Uthaymeen
+origins:
+  - host: binothaimeen.net
+    paths:
+      - /site/**
+      - /s/**
+      - /downloads/**
+supports:
+  - source-attribution
+  - scholar-position
+  - fatwa-summary
+  - hadith-grading
+  - tafsir-statement
+  - comparative-synthesis
+domains: [quran, hadith, tafsir, fiqh, aqeedah, seerah, history, fatwa]
+languages: [ar]
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://binothaimeen.net
