@@ -7,7 +7,8 @@ authority:
 origins:
   - host: binbaz.org.sa
     paths:
-      - /**
+      - /search
+      - /fatwas/**
 supports:
   - source-attribution
   - scholar-position
