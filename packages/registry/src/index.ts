@@ -23,7 +23,7 @@ export interface CompiledRegistry {
 
 async function readStrictYaml(path: string): Promise<unknown> {
   const text = await readFile(path, "utf8");
-  const document = parseDocument(text, { schema: "json", merge: false });
+  const document = parseDocument(text, { schema: "core", merge: false });
   if (document.errors.length > 0) {
     throw new Error(`${path}: ${document.errors.map((error) => error.message).join("; ")}`);
   }
