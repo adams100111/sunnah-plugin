@@ -15,4 +15,9 @@ jobs:
         with:
           node-version: 24
       - run: pnpm install --frozen-lockfile=false
+      - uses: actions/upload-artifact@v7
+        with:
+          path: pnpm-lock.yaml
+          archive: false
+          retention-days: 1
       - run: pnpm check
