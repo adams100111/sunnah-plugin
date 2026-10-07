@@ -1,0 +1,4 @@
+id: quran-core
+description: Canonical Qur'an exact-lookup sources.
+sourceIds:
+  - quran-foundation

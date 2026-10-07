@@ -1,0 +1,24 @@
+id: ibn-baz-official
+sourceClass: APPROVED_SCHOLAR_CORPUS
+authority:
+  type: scholar
+  id: abd-al-aziz-ibn-baz
+  name: Abd al-Aziz ibn Baz
+origins:
+  - host: binbaz.org.sa
+    paths:
+      - /**
+supports:
+  - source-attribution
+  - scholar-position
+  - fatwa-summary
+domains:
+  - fiqh
+  - aqeedah
+  - fatwa
+languages:
+  - ar
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://binbaz.org.sa

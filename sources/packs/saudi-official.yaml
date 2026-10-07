@@ -1,0 +1,4 @@
+id: saudi-official
+description: Approved official Saudi scholar source set currently available to the plugin.
+sourceIds:
+  - ibn-baz-official
