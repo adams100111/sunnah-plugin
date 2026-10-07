@@ -48,9 +48,7 @@ export class HttpSemanticVerifier implements SemanticVerifier {
       },
       body: JSON.stringify({ claim, evidence }),
     });
-    if (!response.ok) {
-      throw new Error(`Semantic verifier returned HTTP ${response.status}`);
-    }
+    if (!response.ok) throw new Error(`Semantic verifier returned HTTP ${response.status}`);
     return ClaimVerificationSchema.parse(await response.json());
   }
 }
@@ -71,6 +69,23 @@ function blockedVerification(
     evidenceIds: claim.evidenceIds,
     reasons: [reason],
   };
+}
+
+function evidenceAllowsClaim(
+  registry: CompiledRegistry,
+  evidence: Evidence,
+  claimClass: Claim["claimClass"],
+): boolean {
+  if (registry.sources[evidence.sourceId]) {
+    return sourceAllowsClaim(registry, evidence.sourceId, claimClass);
+  }
+  if (
+    evidence.sourceClass !== "USER_SUPPLIED_UNTRUSTED" &&
+    evidence.sourceClass !== "EXTERNAL_FACTUAL"
+  ) {
+    return false;
+  }
+  return registry.sourceClassPolicy.classes[evidence.sourceClass].allows.includes(claimClass);
 }
 
 export interface PublicationOptions {
@@ -101,9 +116,7 @@ export async function runPublicationGate(
     if (supportingEvidence.length !== claim.evidenceIds.length) {
       verification = blockedVerification(claim, "NOT_SUPPORTED", "One or more evidence IDs were not retrieved.");
     } else if (
-      supportingEvidence.some(
-        (item) => !sourceAllowsClaim(registry, item.sourceId, claim.claimClass),
-      )
+      supportingEvidence.some((item) => !evidenceAllowsClaim(registry, item, claim.claimClass))
     ) {
       verification = blockedVerification(
         claim,
@@ -137,11 +150,8 @@ export async function runPublicationGate(
 
     const parsed = ClaimVerificationSchema.parse(verification);
     verifications.push(parsed);
-    if (parsed.status === "ENTAILED") {
-      publishableClaims.push(claim);
-    } else {
-      blockedClaims.push(claim);
-    }
+    if (parsed.status === "ENTAILED") publishableClaims.push(claim);
+    else blockedClaims.push(claim);
   }
 
   if (requiresScholar) {

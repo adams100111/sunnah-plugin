@@ -73,6 +73,15 @@ export function sourcePermitsUrl(source: SourceDefinition, url: URL): boolean {
   );
 }
 
+export function findRegisteredSourceForUrl(
+  registry: CompiledRegistry,
+  url: URL,
+): SourceDefinition | undefined {
+  return Object.values(registry.sources).find(
+    (source) => source.status === "active" && sourcePermitsUrl(source, url),
+  );
+}
+
 async function assertPublicDestination(url: URL, resolveHost: ResolveHost): Promise<void> {
   if (url.protocol !== "https:") throw new Error("Only HTTPS URLs are allowed");
   const literalVersion = isIP(url.hostname);
@@ -107,10 +116,10 @@ async function readLimitedBody(response: Response, maxBytes: number): Promise<st
   return new TextDecoder().decode(output);
 }
 
-export async function safeFetchText(
+async function fetchTextWithGuard(
   initialUrl: URL,
-  source: SourceDefinition,
-  policy: FetchPolicy = {},
+  policy: FetchPolicy,
+  permits: (url: URL) => boolean,
 ): Promise<{ url: URL; contentType: string; text: string }> {
   const fetcher = policy.fetcher ?? fetch;
   const resolveHost = policy.resolveHost ?? defaultResolveHost;
@@ -119,9 +128,7 @@ export async function safeFetchText(
   let url = initialUrl;
 
   for (let redirects = 0; redirects <= maxRedirects; redirects += 1) {
-    if (!sourcePermitsUrl(source, url)) {
-      throw new Error(`URL is not permitted for source ${source.id}`);
-    }
+    if (!permits(url)) throw new Error("URL is not permitted by the active fetch policy");
     await assertPublicDestination(url, resolveHost);
 
     const response = await fetcher(url, {
@@ -141,10 +148,24 @@ export async function safeFetchText(
     if (!["text/html", "text/plain", "application/json"].includes(contentType)) {
       throw new Error(`Unsupported content type: ${contentType || "unknown"}`);
     }
-
     return { url, contentType, text: await readLimitedBody(response, maxBytes) };
   }
   throw new Error("Unable to fetch source");
+}
+
+export async function safeFetchText(
+  initialUrl: URL,
+  source: SourceDefinition,
+  policy: FetchPolicy = {},
+): Promise<{ url: URL; contentType: string; text: string }> {
+  return fetchTextWithGuard(initialUrl, policy, (url) => sourcePermitsUrl(source, url));
+}
+
+export async function safeFetchPublicText(
+  initialUrl: URL,
+  policy: FetchPolicy = {},
+): Promise<{ url: URL; contentType: string; text: string }> {
+  return fetchTextWithGuard(initialUrl, policy, (url) => url.protocol === "https:");
 }
 
 function decodeHtmlEntities(value: string): string {
@@ -175,6 +196,10 @@ function evidenceId(sourceId: string, documentId: string, passage: string): stri
     .slice(0, 20)}`;
 }
 
+function textForEvidence(contentType: string, text: string): string {
+  return contentType === "text/html" ? htmlToEvidenceText(text) : text.trim();
+}
+
 export async function fetchApprovedUrlEvidence(
   registry: CompiledRegistry,
   sourceId: string,
@@ -186,8 +211,7 @@ export async function fetchApprovedUrlEvidence(
     throw new Error(`Unknown or inactive source: ${sourceId}`);
   }
   const result = await safeFetchText(new URL(rawUrl), source, options);
-  const passage =
-    result.contentType === "text/html" ? htmlToEvidenceText(result.text) : result.text.trim();
+  const passage = textForEvidence(result.contentType, result.text);
   if (!passage) throw new Error("Retrieved source contains no usable text");
 
   return EvidenceSchema.parse({
@@ -199,6 +223,36 @@ export async function fetchApprovedUrlEvidence(
     canonicalUrl: result.url.href,
     passage,
     language: source.languages[0] ?? "und",
+    registryRevision: registry.revision,
+    retrievedAt: new Date().toISOString(),
+  });
+}
+
+export async function fetchUnregisteredUrlEvidence(
+  registry: CompiledRegistry,
+  rawUrl: string,
+  kind: "user" | "external-fact",
+  options: FetchPolicy = {},
+): Promise<Evidence> {
+  const result = await safeFetchPublicText(new URL(rawUrl), options);
+  const passage = textForEvidence(result.contentType, result.text);
+  if (!passage) throw new Error("Retrieved source contains no usable text");
+  const prefix = kind === "user" ? "user" : "external";
+  const sourceClass = kind === "user" ? "USER_SUPPLIED_UNTRUSTED" : "EXTERNAL_FACTUAL";
+
+  return EvidenceSchema.parse({
+    id: evidenceId(`${prefix}:${result.url.hostname}`, result.url.href, passage),
+    sourceId: `${prefix}:${result.url.hostname}`,
+    sourceClass,
+    authority: {
+      type: "external",
+      id: result.url.hostname,
+      name: result.url.hostname,
+    },
+    documentId: result.url.href,
+    canonicalUrl: result.url.href,
+    passage,
+    language: "und",
     registryRevision: registry.revision,
     retrievedAt: new Date().toISOString(),
   });

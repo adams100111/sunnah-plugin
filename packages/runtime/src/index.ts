@@ -1,6 +1,8 @@
 import {
   fetchApprovedUrlEvidence,
   fetchQuranVerseEvidence,
+  fetchUnregisteredUrlEvidence,
+  findRegisteredSourceForUrl,
   type FetchPolicy,
   type QuranFoundationCredentials,
 } from "@sunnah/evidence";
@@ -18,6 +20,12 @@ export interface RuntimeOptions {
   quranCredentials?: QuranFoundationCredentials;
   semanticVerifier?: SemanticVerifier;
   fetchPolicy?: FetchPolicy;
+}
+
+export interface UserSourceInspection {
+  provenance: "APPROVED_REGISTERED" | "USER_SUPPLIED_UNTRUSTED";
+  registeredSourceId?: string;
+  evidence: Evidence;
 }
 
 export class SunnahRuntime {
@@ -46,6 +54,36 @@ export class SunnahRuntime {
     );
   }
 
+  async inspectUserSource(url: string): Promise<UserSourceInspection> {
+    const parsed = new URL(url);
+    const registered = findRegisteredSourceForUrl(this.options.registry, parsed);
+    if (registered) {
+      return {
+        provenance: "APPROVED_REGISTERED",
+        registeredSourceId: registered.id,
+        evidence: await this.fetchIslamicEvidence(registered.id, url),
+      };
+    }
+    return {
+      provenance: "USER_SUPPLIED_UNTRUSTED",
+      evidence: await fetchUnregisteredUrlEvidence(
+        this.options.registry,
+        url,
+        "user",
+        this.options.fetchPolicy,
+      ),
+    };
+  }
+
+  async fetchExternalFactSource(url: string): Promise<Evidence> {
+    return fetchUnregisteredUrlEvidence(
+      this.options.registry,
+      url,
+      "external-fact",
+      this.options.fetchPolicy,
+    );
+  }
+
   async verifyClaims(
     claims: Claim[],
     evidence: Evidence[],
@@ -67,16 +105,14 @@ export class SunnahRuntime {
   ): Promise<{ evidence: Evidence; result: PublicationResult }> {
     const evidence = await this.fetchIslamicEvidence(sourceId, url);
     const result = await this.verifyClaims(
-      [
-        {
-          id: "quotation",
-          text: quotation,
-          claimClass: "source-attribution",
-          evidenceIds: [evidence.id],
-          quotation,
-          applicability: "general",
-        },
-      ],
+      [{
+        id: "quotation",
+        text: quotation,
+        claimClass: "source-attribution",
+        evidenceIds: [evidence.id],
+        quotation,
+        applicability: "general",
+      }],
       [evidence],
     );
     return { evidence, result };
