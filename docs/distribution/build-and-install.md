@@ -28,3 +28,38 @@ The Gemini artifact contains `gemini-extension.json` using `httpUrl` for Streama
 ## Generic hosts
 
 The generic artifact contains the canonical skill and portable MCP declaration. Full trusted mode requires both skill loading and remote MCP access.
+
+
+## Run the MCP server
+
+Local HTTP development:
+
+```bash
+pnpm build
+node apps/mcp/dist/http.js
+```
+
+or:
+
+```bash
+pnpm build
+node packages/cli/dist/index.js mcp dev
+```
+
+The server exposes:
+
+- `GET /health`
+- `/mcp` for Streamable HTTP MCP
+
+Production deployments should configure the values documented in `.env.example`, terminate TLS at the platform/edge or container ingress, and keep the public MCP URL stable.
+
+## Docker
+
+The root `Dockerfile` is provider-neutral:
+
+```bash
+docker build -t sunnah-plugin .
+docker run --rm -p 3000:3000 --env-file .env sunnah-plugin
+```
+
+Use the resulting public HTTPS `/mcp` endpoint when building marketplace artifacts.

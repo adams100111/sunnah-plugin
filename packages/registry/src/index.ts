@@ -131,3 +131,41 @@ export function sourceAllowsClaim(
     registry.sourceClassPolicy.classes[source.sourceClass].allows.includes(claimClass)
   );
 }
+
+export interface RegistryDiff {
+  addedSources: string[];
+  removedSources: string[];
+  changedSources: string[];
+  addedPacks: string[];
+  removedPacks: string[];
+  changedPacks: string[];
+  policyChanged: boolean;
+}
+
+function changedRecord<T>(current: T | undefined, previous: T | undefined): boolean {
+  return JSON.stringify(current) !== JSON.stringify(previous);
+}
+
+export function diffRegistries(
+  current: CompiledRegistry,
+  previous: CompiledRegistry,
+): RegistryDiff {
+  const currentSourceIds = new Set(Object.keys(current.sources));
+  const previousSourceIds = new Set(Object.keys(previous.sources));
+  const currentPackIds = new Set(Object.keys(current.packs));
+  const previousPackIds = new Set(Object.keys(previous.packs));
+
+  return {
+    addedSources: [...currentSourceIds].filter((id) => !previousSourceIds.has(id)).sort(),
+    removedSources: [...previousSourceIds].filter((id) => !currentSourceIds.has(id)).sort(),
+    changedSources: [...currentSourceIds]
+      .filter((id) => previousSourceIds.has(id) && changedRecord(current.sources[id], previous.sources[id]))
+      .sort(),
+    addedPacks: [...currentPackIds].filter((id) => !previousPackIds.has(id)).sort(),
+    removedPacks: [...previousPackIds].filter((id) => !currentPackIds.has(id)).sort(),
+    changedPacks: [...currentPackIds]
+      .filter((id) => previousPackIds.has(id) && changedRecord(current.packs[id], previous.packs[id]))
+      .sort(),
+    policyChanged: changedRecord(current.sourceClassPolicy, previous.sourceClassPolicy),
+  };
+}
