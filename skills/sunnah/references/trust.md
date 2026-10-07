@@ -5,8 +5,9 @@ For every substantive Islamic claim:
 1. Retrieve evidence from an approved source or canonical tool.
 2. Keep evidence provenance and source identity intact.
 3. Build the candidate claim with the exact evidence IDs that support it.
-4. Call `verify_claims`.
-5. Publish only claims returned as publishable/entailed.
+4. In Full mode, call `verify_claims`.
+5. Publish only source-supported claims.
+6. Render the supporting evidence before generated summary or explanation according to `output.md`.
 
 Do not reinterpret `PARTIAL`, `CONTRADICTED`, or `NOT_SUPPORTED` as permission to answer anyway.
 

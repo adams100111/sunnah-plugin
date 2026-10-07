@@ -30,6 +30,8 @@ Prefer **Full mode** whenever the Sunnah MCP evidence tools are available.
 
 Read `references/trust.md` for the publication and evidence rules on every substantive task.
 
+Before rendering any substantive Islamic answer, read `references/output.md`.
+
 ## Route the task
 
 Choose the smallest relevant workflow:
@@ -70,6 +72,8 @@ Generic/open web research may be used for external factual evidence under the ex
 
 ## Output
 
-Keep the answer natural and useful. Render only claims that passed the Publication Gate.
+Render substantive Islamic answers source-first. Evidence must appear before generated summary, comparison, translation, or application.
 
-Preserve source links/identities and make material disagreement or limitations visible without adding repetitive disclaimer text.
+Use `references/output.md` as the canonical rendering contract.
+
+Preserve source identity, direct locator, relevant retrieved passage, attribution level, disagreement, and limitations.

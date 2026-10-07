@@ -38,7 +38,25 @@ Use when:
 
 The system may provide sourced general rules and positions.
 
-It must not silently decide that a user's personal circumstances satisfy legal exceptions or conditions when the retrieved evidence does not establish that mapping.
+Personal applicability is a separate substantive claim. The system may state that a rule applies to the user's circumstances only when permitted retrieved evidence directly establishes the relevant mapping.
+
+A general source about illness, hardship, travel, necessity, fear, incapacity, or another exception does not authorize the model to decide that the user's described condition satisfies that exception.
+
+When the mapping is not directly established:
+
+1. present the sourced general rule and exact evidence;
+2. name the unresolved applicability question without answering it;
+3. return `SCHOLAR_REQUIRED`.
+
+## Clarification questions
+
+Clarification is evidence-driven, not a model-created juristic interview.
+
+A clarification question is permitted only after retrieval when a source itself distinguishes factual states that materially control the answer. The question may collect that factual distinction.
+
+The model must not invent a new legal threshold, severity scale, exception test, or recommendation and then question the user against it.
+
+If resolving the facts would still require qualified juristic judgment, stop at `SCHOLAR_REQUIRED`.
 
 ## No disclaimer spam
 

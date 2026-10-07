@@ -23,17 +23,19 @@ Sunnah Plugin must earn trust through evidence, provenance, verification, and ap
 15. Model output may not override deterministic policy.
 16. Evidence provenance must survive through the final result.
 17. Core trust guarantees must work on web hosts without local execution.
+18. User-facing Islamic answers must expose supporting evidence before generated synthesis.
+19. Generated language may summarize Islamic knowledge but may not supply a missing Islamic proposition or applicability judgment.
 
 ## Generated language vs generated knowledge
 
 The product permits generated:
 
-- summaries;
-- explanations;
-- comparisons;
-- translations;
-- educational organization;
-- narrative presentation.
+- faithful summaries;
+- faithful translations;
+- source-attributed comparisons;
+- organization and presentation of retrieved evidence.
+
+Generated language may clarify the wording of retrieved evidence only by paraphrasing what that evidence already establishes. It may not introduce a new Islamic proposition under the label of explanation or narrative.
 
 The model is not permitted to become the origin of the underlying Islamic claim.
 
@@ -42,12 +44,14 @@ approved evidence
     ↓
 candidate claims
     ↓
-verification
+verification where available
     ↓
-grounded synthesis
+visible source evidence
     ↓
-user-facing answer
+generated summary / translation / comparison
 ```
+
+The source evidence remains visible in the final answer. A citation attached to a model-generated conclusion is not sufficient when the cited material does not directly establish that conclusion.
 
 ## Publication gate
 
