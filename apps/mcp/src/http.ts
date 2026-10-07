@@ -5,6 +5,7 @@ import { createMcpHandler } from "@modelcontextprotocol/server";
 import { bodyLimit } from "hono/body-limit";
 import { timeout } from "hono/timeout";
 import { createRuntime } from "./runtime.js";
+import { hasValidBearerToken } from "./token-auth.js";
 import { createSunnahMcpServer } from "./server.js";
 
 const runtime = await createRuntime();
@@ -19,6 +20,15 @@ const windows = new Map<string, { startedAt: number; count: number }>();
 const postTimeout = timeout(requestTimeoutMs);
 
 app.get("/health", (c) => c.json({ ok: true, service: "sunnah-plugin" }));
+
+app.use("/mcp", async (c, next) => {
+  const token = process.env.SUNNAH_MCP_TOKEN?.trim();
+  if (token && !hasValidBearerToken(c.req.header("authorization"), token)) {
+    c.header("WWW-Authenticate", 'Bearer realm="sunnah-mcp"');
+    return c.json({ error: "unauthorized" }, 401);
+  }
+  await next();
+});
 
 app.use(
   "/mcp",
