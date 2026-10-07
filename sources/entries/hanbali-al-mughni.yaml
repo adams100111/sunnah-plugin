@@ -1,0 +1,34 @@
+id: hanbali-al-mughni
+sourceClass: APPROVED_PRIMARY_WORK
+authority:
+  type: work
+  id: hanbali-al-mughni
+  name: Al-Mughni
+work:
+  id: hanbali-al-mughni
+  titleArabic: المغني شرح مختصر الخرقي
+  titleEnglish: Al-Mughni
+  authorId: ibn-qudama-al-maqdisi
+  authorName: Ibn Qudama al-Maqdisi
+  madhhab: hanbali
+  workKind: reference
+  accessProvider: Usul.ai
+  editionNote: "Abd Allah al-Turki and Abd al-Fattah al-Hilu ed.; Alam al-Kutub, third ed., 1417 AH"
+origins:
+  - host: usul.ai
+    paths:
+      - /ar/t/al-mughni-sharh-mukhtasar-al-khiraqi
+      - /ar/t/al-mughni-sharh-mukhtasar-al-khiraqi/**
+supports:
+  - source-attribution
+  - scholar-position
+  - madhhab-position
+  - comparative-synthesis
+domains:
+  - fiqh
+languages:
+  - ar
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://usul.ai

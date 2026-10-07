@@ -1,0 +1,6 @@
+id: madhhab-maliki
+description: Core Maliki primary/reference works for attributed Maliki fiqh research.
+sourceIds:
+  - maliki-mukhtasar-khalil
+  - maliki-dhakhira
+  - maliki-dusuqi

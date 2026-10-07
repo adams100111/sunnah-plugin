@@ -1,0 +1,34 @@
+id: hanbali-zad
+sourceClass: APPROVED_PRIMARY_WORK
+authority:
+  type: work
+  id: hanbali-zad
+  name: Zad al-Mustaqni
+work:
+  id: hanbali-zad
+  titleArabic: زاد المستقنع في اختصار المقنع
+  titleEnglish: Zad al-Mustaqni
+  authorId: musa-al-hajjawi
+  authorName: Musa al-Hajjawi
+  madhhab: hanbali
+  workKind: mukhtasar
+  accessProvider: Usul.ai
+  editionNote: "Dar al-Watan edition surfaced by Usul"
+origins:
+  - host: usul.ai
+    paths:
+      - /ar/t/zad-mustaqnic
+      - /ar/t/zad-mustaqnic/**
+supports:
+  - source-attribution
+  - scholar-position
+  - madhhab-position
+  - comparative-synthesis
+domains:
+  - fiqh
+languages:
+  - ar
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://usul.ai

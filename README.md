@@ -58,7 +58,8 @@ The first curated catalog is grouped into:
 
 - **General Sunni** — cross-regional Sunni reference and research sources;
 - **Saudi Arabia** — official Saudi institutions and named scholar corpora;
-- **Sudan** — verified Sudanese official Sharia/Islamic-finance and religious-service sources.
+- **Sudan** — verified Sudanese official Sharia/Islamic-finance and religious-service sources;
+- **Four madhhabs** — explicit Hanafi, Maliki, Shafi'i, and Hanbali primary/reference work packs.
 
 See [SOURCES.md](SOURCES.md) for the current catalog and admission notes.
 

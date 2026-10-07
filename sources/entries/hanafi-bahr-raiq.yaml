@@ -1,0 +1,34 @@
+id: hanafi-bahr-raiq
+sourceClass: APPROVED_PRIMARY_WORK
+authority:
+  type: work
+  id: hanafi-bahr-raiq
+  name: Al-Bahr al-Ra'iq
+work:
+  id: hanafi-bahr-raiq
+  titleArabic: البحر الرائق شرح كنز الدقائق
+  titleEnglish: Al-Bahr al-Ra'iq
+  authorId: zayn-al-din-ibn-nujaym
+  authorName: Zayn al-Din Ibn Nujaym
+  madhhab: hanafi
+  workKind: commentary
+  accessProvider: Usul.ai
+  editionNote: "Dar al-Kitab al-Islami edition surfaced by Usul"
+origins:
+  - host: usul.ai
+    paths:
+      - /ar/t/al-bahr-al-raiq-sharh-kanz-al-daqaiq
+      - /ar/t/al-bahr-al-raiq-sharh-kanz-al-daqaiq/**
+supports:
+  - source-attribution
+  - scholar-position
+  - madhhab-position
+  - comparative-synthesis
+domains:
+  - fiqh
+languages:
+  - ar
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://usul.ai

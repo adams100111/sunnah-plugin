@@ -1,0 +1,34 @@
+id: hanbali-kashshaf
+sourceClass: APPROVED_PRIMARY_WORK
+authority:
+  type: work
+  id: hanbali-kashshaf
+  name: Kashshaf al-Qina
+work:
+  id: hanbali-kashshaf
+  titleArabic: كشاف القناع عن متن الإقناع
+  titleEnglish: Kashshaf al-Qina
+  authorId: mansur-al-buhuti
+  authorName: Mansur al-Buhuti
+  madhhab: hanbali
+  workKind: commentary
+  accessProvider: Usul.ai
+  editionNote: "Hilal Musaylihi Mustafa Hilal ed.; Maktabat al-Nasr al-Haditha, first ed., 1377 AH"
+origins:
+  - host: usul.ai
+    paths:
+      - /ar/t/kashshaf-al-qina%27-%27an-matn-al-iqna%27
+      - /ar/t/kashshaf-al-qina%27-%27an-matn-al-iqna%27/**
+supports:
+  - source-attribution
+  - scholar-position
+  - madhhab-position
+  - comparative-synthesis
+domains:
+  - fiqh
+languages:
+  - ar
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://usul.ai

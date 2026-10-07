@@ -16,9 +16,26 @@ sources:
   - path: sources/entries/sudan-cbos-sharia.yaml
   - path: sources/entries/sudan-government.yaml
   - path: sources/entries/sudan-nusk.yaml
+  - path: sources/entries/hanafi-hidaya.yaml
+  - path: sources/entries/hanafi-badai.yaml
+  - path: sources/entries/hanafi-bahr-raiq.yaml
+  - path: sources/entries/maliki-mukhtasar-khalil.yaml
+  - path: sources/entries/maliki-dhakhira.yaml
+  - path: sources/entries/maliki-dusuqi.yaml
+  - path: sources/entries/shafii-al-umm.yaml
+  - path: sources/entries/shafii-al-majmu.yaml
+  - path: sources/entries/shafii-rawda.yaml
+  - path: sources/entries/hanbali-al-mughni.yaml
+  - path: sources/entries/hanbali-al-insaf.yaml
+  - path: sources/entries/hanbali-kashshaf.yaml
+  - path: sources/entries/hanbali-zad.yaml
 packs:
   - path: sources/packs/quran-core.yaml
   - path: sources/packs/sunni-general.yaml
   - path: sources/packs/saudi-official.yaml
   - path: sources/packs/sudan-official.yaml
+  - path: sources/packs/madhhab-hanafi.yaml
+  - path: sources/packs/madhhab-maliki.yaml
+  - path: sources/packs/madhhab-shafii.yaml
+  - path: sources/packs/madhhab-hanbali.yaml
 sourceClassPolicy: policies/source-classes.yaml

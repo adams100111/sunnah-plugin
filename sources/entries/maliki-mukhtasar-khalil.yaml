@@ -1,0 +1,34 @@
+id: maliki-mukhtasar-khalil
+sourceClass: APPROVED_PRIMARY_WORK
+authority:
+  type: work
+  id: maliki-mukhtasar-khalil
+  name: Mukhtasar Khalil
+work:
+  id: maliki-mukhtasar-khalil
+  titleArabic: مختصر خليل
+  titleEnglish: Mukhtasar Khalil
+  authorId: khalil-ibn-ishaq-al-jundi
+  authorName: Khalil ibn Ishaq al-Jundi
+  madhhab: maliki
+  workKind: mukhtasar
+  accessProvider: Usul.ai
+  editionNote: "Ahmad Jad ed.; Dar al-Hadith, first ed., 1426 AH"
+origins:
+  - host: usul.ai
+    paths:
+      - /ar/t/mukhtasar-khalil
+      - /ar/t/mukhtasar-khalil/**
+supports:
+  - source-attribution
+  - scholar-position
+  - madhhab-position
+  - comparative-synthesis
+domains:
+  - fiqh
+languages:
+  - ar
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://usul.ai

@@ -67,6 +67,16 @@ export async function loadRegistry(root: string): Promise<CompiledRegistry> {
   );
 
   for (const source of sources.values()) {
+    if (source.sourceClass === "APPROVED_PRIMARY_WORK" && !source.work) {
+      throw new Error(`Primary work source ${source.id} must define work metadata`);
+    }
+    if (source.sourceClass !== "APPROVED_PRIMARY_WORK" && source.work) {
+      throw new Error(`Non-primary source ${source.id} cannot define primary work metadata`);
+    }
+    if (source.work && source.authority.type !== "work") {
+      throw new Error(`Primary work source ${source.id} must use work authority type`);
+    }
+
     const allowed = new Set(sourceClassPolicy.classes[source.sourceClass].allows);
     for (const claimClass of source.supports) {
       if (!allowed.has(claimClass)) {

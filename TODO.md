@@ -38,8 +38,8 @@ This is the live implementation and operations backlog. Items are ordered by tru
 - [ ] Add Bukhari, Muslim, Abu Dawud, Tirmidhi, Nasa'i, Ibn Majah and major supporting collections with stable IDs and edition metadata.
 - [ ] Add named hadith-grading attribution sources and preserve grader disagreement.
 - [ ] Add major Sunni tafsir corpora with work/author/edition identity.
-- [ ] Add four-madhhab primary/reference corpora and explicit Hanafi/Maliki/Shafi'i/Hanbali source packs.
-- [ ] Add usul al-fiqh reference corpora per madhhab.
+- [x] Add four-madhhab primary/reference corpora and explicit Hanafi/Maliki/Shafi'i/Hanbali source packs.
+- [ ] Deepen each madhhab pack with its usul al-fiqh corpus and explicit mu'tamad/attribution rules.
 - [ ] Add seerah/history sources with historical-report confidence distinct from hadith authenticity.
 - [ ] Add biography/tarajim and Arabic lexicon sources for attribution/context.
 - [ ] Evaluate additional official Sunni fatwa institutions (e.g. Al-Azhar/Dar al-Ifta, other national fatwa bodies) as separate institutional lenses rather than blending them into one generic answer.

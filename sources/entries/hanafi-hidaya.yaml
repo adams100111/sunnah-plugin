@@ -1,0 +1,34 @@
+id: hanafi-hidaya
+sourceClass: APPROVED_PRIMARY_WORK
+authority:
+  type: work
+  id: hanafi-hidaya
+  name: Al-Hidaya
+work:
+  id: hanafi-hidaya
+  titleArabic: الهداية شرح بداية المبتدي
+  titleEnglish: Al-Hidaya
+  authorId: burhan-al-din-al-marghinani
+  authorName: Burhan al-Din al-Marghinani
+  madhhab: hanafi
+  workKind: reference
+  accessProvider: Usul.ai
+  editionNote: "Talal Yusuf ed.; Dar Ihya al-Turath al-Arabi, Beirut"
+origins:
+  - host: usul.ai
+    paths:
+      - /ar/t/al-hidayah-sharh-bidayat-al-mubtadi
+      - /ar/t/al-hidayah-sharh-bidayat-al-mubtadi/**
+supports:
+  - source-attribution
+  - scholar-position
+  - madhhab-position
+  - comparative-synthesis
+domains:
+  - fiqh
+languages:
+  - ar
+status: active
+retrieval:
+  type: http-html
+  baseUrl: https://usul.ai
