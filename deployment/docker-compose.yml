@@ -1,0 +1,29 @@
+services:
+  sunnah-mcp:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    init: true
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      QURAN_FOUNDATION_CLIENT_ID: ${QURAN_FOUNDATION_CLIENT_ID:-}
+      QURAN_FOUNDATION_ACCESS_TOKEN: ${QURAN_FOUNDATION_ACCESS_TOKEN:-}
+      SUNNAH_VERIFIER_URL: ${SUNNAH_VERIFIER_URL:-}
+      SUNNAH_VERIFIER_TOKEN: ${SUNNAH_VERIFIER_TOKEN:-}
+      SUNNAH_MCP_TOKEN: ${SUNNAH_MCP_TOKEN:-}
+      SUNNAH_MAX_REQUEST_BYTES: ${SUNNAH_MAX_REQUEST_BYTES:-262144}
+      SUNNAH_REQUEST_TIMEOUT_MS: ${SUNNAH_REQUEST_TIMEOUT_MS:-60000}
+      SUNNAH_RATE_LIMIT_PER_MINUTE: ${SUNNAH_RATE_LIMIT_PER_MINUTE:-120}
+      SUNNAH_RATE_LIMIT_MAX_KEYS: ${SUNNAH_RATE_LIMIT_MAX_KEYS:-10000}
+    expose:
+      - "3000"
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    stop_grace_period: 15s
