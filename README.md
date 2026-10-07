@@ -136,6 +136,8 @@ docker build -t sunnah-plugin .
 docker run --rm -p 3000:3000 --env-file .env sunnah-plugin
 ```
 
+For Dokploy/Docker Compose deployment, use [deployment/README.md](deployment/README.md). The production Compose file intentionally exposes only the internal service port and lets Dokploy manage the public domain/TLS.
+
 Copy `.env.example` into your deployment secret configuration. Do not commit credentials.
 
 ## Semantic verification modes
@@ -183,6 +185,7 @@ packages/runtime/       application orchestration
 packages/packaging/     cross-host package generation
 packages/cli/           maintainer CLI
 apps/mcp/               HTTP + stdio MCP server
+deployment/             Dokploy/Docker Compose production deployment
 tests/                  unit, contract, security, and eval suites
 docs/                   detailed methodology and architecture
 ```
@@ -199,6 +202,7 @@ Also see:
 - [Source Admission](docs/methodology/source-admission.md)
 - [Source Registry](docs/architecture/source-registry.md)
 - [Distribution](docs/distribution/README.md)
+- [Dokploy / Compose Deployment](deployment/README.md)
 - [Testing and Evals](docs/testing/eval-strategy.md)
 
 ## Sunnah Engine boundary
