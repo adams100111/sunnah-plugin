@@ -9,9 +9,7 @@ const handler = createMcpHandler(() => createSunnahMcpServer(runtime));
 
 const app = createMcpHonoApp();
 app.get("/health", (c) => c.json({ ok: true, service: "sunnah-plugin" }));
-app.all("/mcp", (c) =>
-  handler.fetch(c.req.raw, { parsedBody: c.get("parsedBody") }),
-);
+app.all("/mcp", (c) => handler.fetch(c.req.raw));
 
 const port = Number.parseInt(process.env.PORT ?? "3000", 10);
 serve({ fetch: app.fetch, port }, (info) => {
