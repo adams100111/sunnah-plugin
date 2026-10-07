@@ -15,7 +15,9 @@
     "typecheck": "tsc -b --pretty false",
     "validate": "pnpm --filter @sunnah/cli exec sunnah validate",
     "eval": "vitest run tests/evals",
-    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm validate"
+    "check": "pnpm lint && pnpm typecheck && pnpm test && pnpm validate",
+    "mcp:http": "node apps/mcp/dist/http.js",
+    "mcp:stdio": "node apps/mcp/dist/stdio.js"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",

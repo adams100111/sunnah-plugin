@@ -5,6 +5,8 @@
     { "path": "./packages/registry" },
     { "path": "./packages/evidence" },
     { "path": "./packages/verification" },
-    { "path": "./packages/cli" }
+    { "path": "./packages/runtime" },
+    { "path": "./packages/cli" },
+    { "path": "./apps/mcp" }
   ]
 }
