@@ -3,6 +3,7 @@
   "references": [
     { "path": "./packages/schemas" },
     { "path": "./packages/registry" },
+    { "path": "./packages/evidence" },
     { "path": "./packages/cli" }
   ]
 }

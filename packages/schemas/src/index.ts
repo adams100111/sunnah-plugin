@@ -92,7 +92,30 @@ export const SourceClassPolicySchema = z
   })
   .strict();
 
+export const EvidenceSchema = z
+  .object({
+    id: z.string().min(1),
+    sourceId: z.string().min(1),
+    sourceClass: SourceClassSchema,
+    authority: AuthoritySchema,
+    documentId: z.string().min(1),
+    canonicalUrl: z.url(),
+    passage: z.string().min(1),
+    language: z.string().min(2),
+    registryRevision: z.string().min(1),
+    retrievedAt: z.iso.datetime(),
+    location: z
+      .object({
+        label: z.string().min(1).optional(),
+        verseKey: z.string().min(1).optional(),
+      })
+      .strict()
+      .optional(),
+  })
+  .strict();
+
 export type ClaimClass = z.infer<typeof ClaimClassSchema>;
+export type Evidence = z.infer<typeof EvidenceSchema>;
 export type RegistryIndex = z.infer<typeof RegistryIndexSchema>;
 export type SourceClassPolicy = z.infer<typeof SourceClassPolicySchema>;
 export type SourceDefinition = z.infer<typeof SourceDefinitionSchema>;
