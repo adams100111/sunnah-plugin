@@ -41,11 +41,10 @@ If exact quotation integrity cannot be established, do not invent a quotation. S
 
 Generated language may:
 
-- summarize;
-- translate;
-- organize;
-- compare;
-- explain wording already established by the evidence.
+- faithfully summarize;
+- faithfully translate;
+- organize retrieved evidence;
+- compare source-backed positions.
 
 Generated language may not supply a missing Islamic proposition.
 
