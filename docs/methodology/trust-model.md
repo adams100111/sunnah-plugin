@@ -30,12 +30,12 @@ Sunnah Plugin must earn trust through evidence, provenance, verification, and ap
 
 The product permits generated:
 
-- summaries;
-- explanations;
-- comparisons;
-- translations;
-- educational organization;
-- narrative presentation.
+- faithful summaries;
+- faithful translations;
+- source-attributed comparisons;
+- organization and presentation of retrieved evidence.
+
+Generated language may clarify the wording of retrieved evidence only by paraphrasing what that evidence already establishes. It may not introduce a new Islamic proposition under the label of explanation or narrative.
 
 The model is not permitted to become the origin of the underlying Islamic claim.
 
