@@ -13,9 +13,23 @@ SOURCE
 
 Never lead with a model-generated religious conclusion and attach citations afterward.
 
+## Personal-case pre-render phase
+
+When the user asks about their own circumstances and a retrieved source itself distinguishes factual states that control applicability:
+
+1. retrieve relevant evidence privately before asking;
+2. identify only the source-defined factual distinction that remains unresolved;
+3. ask that clarification question before any user-visible source block;
+4. do not render evidence blocks until clarification is complete;
+5. after the clarification, render the applicable source evidence first and summarize it faithfully.
+
+Do not reveal a fatwa dump before asking a source-driven clarification that is required to know which retrieved passage is relevant.
+
+If resolving the facts still requires juristic judgment rather than a factual distinction explicitly defined by the retrieved source, do not continue interviewing the user. Render the sourced general material and return `SCHOLAR_REQUIRED`.
+
 ## Required answer shape
 
-For a substantive answer, render sections in this semantic order:
+For a substantive answer that is ready to render, use this semantic order:
 
 1. **Sources and retrieved passages** — one evidence block per material position.
 2. **What the sources state** — faithful generated summary only after the evidence.

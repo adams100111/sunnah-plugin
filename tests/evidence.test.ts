@@ -65,6 +65,38 @@ describe("evidence retrieval", () => {
     ).rejects.toThrow("Redirect changed source document identity");
   });
 
+  it("allows canonical slug redirects that preserve the source document identity", async () => {
+    const registry = await loadRegistry(process.cwd());
+    let request = 0;
+
+    const evidence = await fetchApprovedUrlEvidence(
+      registry,
+      "ibn-baz-official",
+      "https://binbaz.org.sa/fatwas/4507/old-slug",
+      {
+        resolveHost: async () => ["8.8.8.8"],
+        fetcher: async () => {
+          request += 1;
+          if (request === 1) {
+            return new Response(null, {
+              status: 302,
+              headers: {
+                location: "https://binbaz.org.sa/fatwas/4507/canonical-slug",
+              },
+            });
+          }
+          return new Response("<main>نفس الفتوى</main>", {
+            status: 200,
+            headers: { "content-type": "text/html" },
+          });
+        },
+      },
+    );
+
+    expect(evidence.canonicalUrl).toBe("https://binbaz.org.sa/fatwas/4507/canonical-slug");
+    expect(evidence.passage).toContain("نفس الفتوى");
+  });
+
   it("retrieves canonical Quran text through the configured adapter", async () => {
     const registry = await loadRegistry(process.cwd());
     const evidence = await fetchQuranVerseEvidence(

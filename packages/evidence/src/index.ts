@@ -89,6 +89,46 @@ export function findRegisteredSourceForUrl(
   );
 }
 
+function normalizeDocumentPath(pathname: string): string {
+  return pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
+}
+
+function sourceDocumentIdentity(source: SourceDefinition, url: URL): string | undefined {
+  const prefixes = source.retrieval.search?.resultPathPrefixes ?? [];
+  for (const prefix of prefixes) {
+    if (!url.pathname.startsWith(prefix)) continue;
+    const remainder = url.pathname.slice(prefix.length).replace(/^\/+/, "");
+    const firstSegment = remainder.split("/")[0];
+    if (firstSegment) return `${prefix}:${firstSegment}`;
+  }
+  return undefined;
+}
+
+function assertSameSourceDocument(
+  source: SourceDefinition,
+  requestedUrl: URL,
+  resolvedUrl: URL,
+): void {
+  if (requestedUrl.href === resolvedUrl.href) return;
+
+  const requestedIdentity = sourceDocumentIdentity(source, requestedUrl);
+  const resolvedIdentity = sourceDocumentIdentity(source, resolvedUrl);
+  if (requestedIdentity && resolvedIdentity && requestedIdentity === resolvedIdentity) return;
+
+  if (
+    !requestedIdentity &&
+    !resolvedIdentity &&
+    requestedUrl.hostname === resolvedUrl.hostname &&
+    normalizeDocumentPath(requestedUrl.pathname) === normalizeDocumentPath(resolvedUrl.pathname) &&
+    requestedUrl.search === resolvedUrl.search
+  ) {
+    return;
+  }
+
+  throw new Error("Redirect changed source document identity");
+}
+
+
 async function assertPublicDestination(url: URL, resolveHost: ResolveHost): Promise<void> {
   if (url.protocol !== "https:") throw new Error("Only HTTPS URLs are allowed");
   const literalVersion = isIP(url.hostname);
@@ -323,7 +363,9 @@ export async function fetchApprovedUrlEvidence(
   if (!source || source.status !== "active") {
     throw new Error(`Unknown or inactive source: ${sourceId}`);
   }
-  const result = await safeFetchText(new URL(rawUrl), source, options);
+  const requestedUrl = new URL(rawUrl);
+  const result = await safeFetchText(requestedUrl, source, options);
+  assertSameSourceDocument(source, requestedUrl, result.url);
   const { fullPassage, passage, truncated } = compactEvidenceText(
     result.contentType,
     result.text,
