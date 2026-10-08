@@ -34,6 +34,37 @@ describe("evidence retrieval", () => {
     expect(evidence.passage).not.toContain("ignore()");
   });
 
+  it("rejects approved-source redirects that change the source document identity", async () => {
+    const registry = await loadRegistry(process.cwd());
+    let request = 0;
+
+    await expect(
+      fetchApprovedUrlEvidence(
+        registry,
+        "ibn-baz-official",
+        "https://binbaz.org.sa/fatwas/4507/exhaustion",
+        {
+          resolveHost: async () => ["8.8.8.8"],
+          fetcher: async () => {
+            request += 1;
+            if (request === 1) {
+              return new Response(null, {
+                status: 302,
+                headers: {
+                  location: "https://binbaz.org.sa/fatwas/9999/unrelated",
+                },
+              });
+            }
+            return new Response("<main>فتوى أخرى غير مرتبطة</main>", {
+              status: 200,
+              headers: { "content-type": "text/html" },
+            });
+          },
+        },
+      ),
+    ).rejects.toThrow("Redirect changed source document identity");
+  });
+
   it("retrieves canonical Quran text through the configured adapter", async () => {
     const registry = await loadRegistry(process.cwd());
     const evidence = await fetchQuranVerseEvidence(
